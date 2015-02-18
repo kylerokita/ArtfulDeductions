@@ -1,0 +1,102 @@
+[
+		{
+		"wrongAnswerMessage": [
+			"Watt were you thinking?",
+			"Shockingly wrong",
+			"No.",
+			"LOL"
+		],
+		"correctAnswerMessage": [
+			"You are electric!",
+			"High voltage!"
+		],
+		"year": 1856,
+		"name": "Tesla",
+		"fullName": "Nikola Tesla",
+		"imageFilename": "tesla",
+		"jobTitle": "Inventor",
+		"accomplishments": "Electricity",
+		"funFact": "TBD",
+		"selectionMessage": "I'm charged up and ready to go!",
+		"giveUpMessage": "Batteries drained?"
+	},
+		{
+		"wrongAnswerMessage": [
+			"Da Da Da Da Dummy",
+			"No.",
+			"LOL"
+		],
+		"correctAnswerMessage": [
+			"Music to my ears!",
+			"A note-worthy accomplishment!"
+		],
+		"year": 1770,
+		"name": "Beethoven",
+		"fullName": "Ludwig van Beethoven",
+		"imageFilename": "beethoven",
+		"jobTitle": "Composer",
+		"accomplishments": "Composed 9 symphonies, 5 concertos for piano, 32 piano sonatas, 16 string quartets and more.",
+		"funFact": "Lost hearing at age 26",
+		"selectionMessage": "Lets duet!",
+		"giveUpMessage": "Beethoven does not roll-over!"
+	},
+	{
+		"wrongAnswerMessage": [
+			"That is classically poor!",
+			"No.",
+			"LOL"
+		],
+		"correctAnswerMessage": [
+			"You could make Mona Lisa crack a smile!"
+		],
+		"year": 1452,
+		"name": "da Vinci",
+		"fullName": "Leonardo da Vinci",
+		"imageFilename": "davinci",
+		"jobTitle": "Painter",
+		"accomplishments": "Mona Lisa",
+		"funFact": "TBD",
+		"selectionMessage": "I've been brushing up on my trivia",
+		"giveUpMessage": "Run out of inspiration?"
+	},
+	{
+		"wrongAnswerMessage": [
+			"Go fly a kite!",
+			"Frankly, I'm dissapointed",
+			"No.",
+			"LOL"
+		],
+		"correctAnswerMessage": [
+			"You could make Mona Lisa crack a smile!"
+		],
+		"year": 1706,
+		"name": "Franklin",
+		"fullName": "Benjamin Franklin",
+		"imageFilename": "franklin",
+		"jobTitle": "Inventor",
+		"accomplishments": "Founding Father",
+		"funFact": "Enjoyed sun bathing in his later years",
+		"selectionMessage": "I have a mind like an almanac",
+		"giveUpMessage": "Noooooo"
+	},
+	{
+		"wrongAnswerMessage": [
+			"I think NOT",
+			"Think again",
+			"No.",
+			"LOL"
+		],
+		"correctAnswerMessage": [
+			"You could make Mona Lisa crack a smile!"
+		],
+		"year": 1904,
+		"name": "Thinker",
+		"fullName": "The Thinker",
+		"imageFilename": "thinkerhead",
+		"jobTitle": "World Famous Thinker",
+		"accomplishments": "Thinking for 1000 years",
+		"funFact": "Enjoys baseball",
+		"selectionMessage": "I think I can help you out",
+		"giveUpMessage": "I never stop thinking!"
+	}
+]

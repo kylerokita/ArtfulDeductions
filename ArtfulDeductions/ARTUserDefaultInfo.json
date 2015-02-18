@@ -1,0 +1,37 @@
+{
+	"settings" : {
+		"visualTheme":"black",
+        "showIntro":"YES"
+    },
+    "tutorials" : {
+        "topicScreen":"YES",
+        "questionScreen":"YES"
+    },
+	"decks": {
+		"Sampler": {
+			"isPlayed": "NO",
+			"isCompleted": "NO",
+			"isEnabled": "YES"
+		}
+	},
+	"cards": {
+
+	},
+    "avatars": {
+        "Thinker": {
+            "isEnabled": "YES"
+        },
+        "Beethoven": {
+            "isEnabled": "YES"
+        },
+        "Tesla": {
+            "isEnabled": "YES"
+        },
+        "Franklin": {
+            "isEnabled": "YES"
+        },
+        "da Vinci": {
+            "isEnabled": "YES"
+        }
+    }
+}
