@@ -34,6 +34,9 @@
 #import "ARTStartViewController.h"
 #import "ARTCategoryViewController.h"
 
+#import "MKStoreManager.h"
+
+//#import "LARSAdController.h"
 
 @interface ARTDailyViewController () {
     
@@ -47,6 +50,8 @@
 @property (nonatomic) BOOL hidingcardInProgress;
 @property (nonatomic) BOOL flippingToHidecardInProgress;
 
+@property (strong, nonatomic) ADInterstitialAd *interstitial;
+
 @end
 
 @implementation ARTDailyViewController
@@ -59,9 +64,9 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     if ([[[ARTUserInfo sharedInstance] getVisualTheme] isEqual:@"white"]) {
-        self.view.backgroundColor = [UIColor lightBackgroundColor]; //darkmode
+        self.originalContentView.backgroundColor = [UIColor lightBackgroundColor]; //darkmode
     } else {
-        self.view.backgroundColor = [UIColor darkBackgroundColor]; //darkmode
+        self.originalContentView.backgroundColor = [UIColor darkBackgroundColor]; //darkmode
     }
     
     [self initializeCardGlobalVariables];
@@ -82,6 +87,7 @@
         self.bottomMenuHeightConstraint.constant = gameMenusHeightIpad;
     }
     
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -98,11 +104,16 @@
     [(ARTNavigationController*)[self navigationController] setLandscapeOK:YES];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     
-    self.backButton = [[UIButton alloc] backButtonWith:@"Back" tintColor:[UIColor blueNavBarColor] target:self andAction:@selector(backToGalleryTapDetected:)];
-    [self.view addSubview:self.backButton];
-    [self.view sendSubviewToBack:self.backButton];
+    if (self.backButton) {
+        [self.backButton removeFromSuperview];
+        self.backButton = nil;
+    }
     
-    [self.view layoutIfNeeded];
+    self.backButton = [[UIButton alloc] backButtonWith:@"Back" tintColor:[UIColor blueNavBarColor] target:self andAction:@selector(backToGalleryTapDetected:)];
+    [self.originalContentView addSubview:self.backButton];
+    [self.originalContentView sendSubviewToBack:self.backButton];
+    
+    [self.originalContentView layoutIfNeeded];
     
     [self setupLogoImageView];
     
@@ -123,22 +134,84 @@
     
     [self setupScrollView];
     
-    [self.view layoutIfNeeded];
+    [self.originalContentView layoutIfNeeded];
     
     [self centerScrollViewContents];
     
+    if (self.topView) {
+        [self.topView removeFromSuperview];
+        self.topView = nil;
+    }
+    
     self.topView = [[ARTTopView alloc] init];
     
-    [self.view addSubview:self.topView];
-    [self.view sendSubviewToBack:self.topView];
-    [self.view insertSubview:self.logoImageView belowSubview:self.scrollView];
+    [self.originalContentView addSubview:self.topView];
+    [self.originalContentView sendSubviewToBack:self.topView];
+    [self.originalContentView insertSubview:self.logoImageView belowSubview:self.scrollView];
     
     [self setupScoreView];
     
     self.isOKForStartButtonToBlink  = YES;
     [self animateStartButtonFlash];
+    
+    
+    NSLog(@"Should add ad");
+    //[[LARSAdController sharedManager] addAdContainerToViewInViewController:self];
+    
+    if (![MKStoreManager isFeaturePurchased:kProductClassicSeries]) {
+        self.canDisplayBannerAds = YES;
+     } else {
+        self.canDisplayBannerAds = NO;
+    }
+}
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    // [self showFullScreenAd];
+
+    NSLog(@"logoImageView: %@",self.logoImageView);
+    NSLog(@"logoImageLabel: %@",self.logoImageLabel);
+}
+
+-(void)viewWillLayoutSubviews {
+
+    [self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:NO];
+    [self centerScrollViewContents];
+}
+
+-(void)showFullScreenAd {
+    //Check if already requesting ad
+        self.interstitial = [[ADInterstitialAd alloc] init];
+        self.interstitial.delegate = self;
+        self.interstitialPresentationPolicy = ADInterstitialPresentationPolicyManual;
+        [self requestInterstitialAdPresentation];
+        NSLog(@"interstitialAdREQUEST");
 
 }
+
+-(void)interstitialAd:(ADInterstitialAd *)interstitialAd didFailWithError:(NSError *)error {
+    self.interstitial = nil;
+    NSLog(@"interstitialAd didFailWithERROR");
+    NSLog(@"%@", error);
+}
+
+-(void)interstitialAdDidLoad:(ADInterstitialAd *)interstitialAd {
+    NSLog(@"interstitialAdDidLOAD");
+    if (interstitialAd != nil && self.interstitial != nil ) {
+        NSLog(@"interstitialAdDidPRESENT");
+    }//end if
+}
+
+-(void)interstitialAdDidUnload:(ADInterstitialAd *)interstitialAd {
+    self.interstitial = nil;
+    NSLog(@"interstitialAdDidUNLOAD");
+}
+
+-(void)interstitialAdActionDidFinish:(ADInterstitialAd *)interstitialAd {
+    self.interstitial = nil;
+    NSLog(@"interstitialAdDidFINISH");
+}
+
 
 
 
@@ -177,6 +250,7 @@
      self.logoImageView.contentMode = UIViewContentModeScaleAspectFit;*/
     
     self.logoImageView.image = [UIImage new];
+
     
     self.logoImageLabel = [[UILabel alloc] initWithFrame:self.logoImageView.bounds];
     self.logoImageLabel.textAlignment = NSTextAlignmentCenter;
@@ -206,9 +280,10 @@
     for (NSInteger i = 0; i < subViews.count; i++) {
         [subViews[i] removeFromSuperview];
     }
+
     
     [self.logoImageView addSubview:self.logoImageLabel];
-    [self.view sendSubviewToBack:self.logoImageView];
+    [self.originalContentView sendSubviewToBack:self.logoImageView];
     
 }
 
@@ -314,6 +389,7 @@
         self.topView.hidden = YES;
         self.bottomMenu.hidden = YES;
         self.scoreLabel.hidden = YES;
+        
     }
     else {
         self.backButton.hidden = NO;
@@ -324,6 +400,7 @@
         self.topView.hidden = NO;
         self.bottomMenu.hidden = NO;
         self.scoreLabel.hidden = NO;
+        
 
     }
     
@@ -375,12 +452,12 @@
     [singleTapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
     
     
-    UISwipeGestureRecognizer *leftSwipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(advanceToNextCard)];
+    UISwipeGestureRecognizer *leftSwipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(leftSwipeDetected:)];
     leftSwipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
     leftSwipeRecognizer.numberOfTouchesRequired = 1;
     [self.scrollView addGestureRecognizer:leftSwipeRecognizer];
     
-    UISwipeGestureRecognizer *rightSwipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(advanceToPreviousCard)];
+    UISwipeGestureRecognizer *rightSwipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(rightSwipeDetected:)];
     rightSwipeRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
     rightSwipeRecognizer.numberOfTouchesRequired = 1;
     [self.scrollView addGestureRecognizer:rightSwipeRecognizer];
@@ -455,12 +532,14 @@
     CGFloat zoomRatio;
     if (IS_OldIphone && [cardOrientation isEqualToString:@"portrait"] && UIDeviceOrientationIsPortrait(screenOrientation)) {
         zoomRatio = cardOverlayImageZoomIphone4Ratio;
+    } else if (IS_IPHONE_5 && [cardOrientation isEqualToString:@"portrait"] && UIDeviceOrientationIsPortrait(screenOrientation)) {
+        zoomRatio = cardOverlayImageZoomIphone5RatioPortrait;
     } else if (IS_IPAD && [cardOrientation isEqualToString:@"portrait"] && UIDeviceOrientationIsPortrait(screenOrientation) ) {
         zoomRatio = cardOverlayImageZoomIpadRatioPortrait;
-    }else if (IS_IPAD && [cardOrientation isEqualToString:@"landscape"] ) {
+    } else if (IS_IPAD && [cardOrientation isEqualToString:@"landscape"] ) {
         zoomRatio = cardOverlayImageZoomIpadRatioLandscape;
     } else {
-        zoomRatio = cardOverlayImageZoomIphone5Ratio;
+        zoomRatio = cardOverlayImageZoomIphoneDefaultRatio;
     }
     
     minScale = MIN(scaleWidth, scaleHeight) / zoomRatio; //come back
@@ -542,13 +621,41 @@
 - (void)upSwipeDetected:(UISwipeGestureRecognizer*)sender {
     NSLog(@"Up Swipe Detected");
     
-    [self animateFlipCardViewsInDirection:@"down"];
+    UIInterfaceOrientation currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+
+    if (UIInterfaceOrientationIsPortrait(currentOrientation)) {
+        [self animateFlipCardViewsInDirection:@"down"];
+    }
+}
+
+- (void)rightSwipeDetected:(UISwipeGestureRecognizer*)sender {
+    NSLog(@"Right Swipe Detected");
+    
+    UIInterfaceOrientation currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
+    if (UIInterfaceOrientationIsPortrait(currentOrientation)) {
+        [self advanceToPreviousCard];
+    }
+}
+
+- (void)leftSwipeDetected:(UISwipeGestureRecognizer*)sender {
+    NSLog(@"Left Swipe Detected");
+    
+    UIInterfaceOrientation currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
+    if (UIInterfaceOrientationIsPortrait(currentOrientation)) {
+        [self advanceToNextCard];
+    }
 }
 
 - (void)downSwipeDetected:(UISwipeGestureRecognizer*)sender {
     NSLog(@"Down Swipe Detected");
     
-    [self animateFlipCardViewsInDirection:@"up"];
+    UIInterfaceOrientation currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
+    if (UIInterfaceOrientationIsPortrait(currentOrientation)) {
+        [self animateFlipCardViewsInDirection:@"up"];
+    }
 }
 
 - (void)previousCardTapDetected:(UITapGestureRecognizer*)sender {
@@ -937,7 +1044,7 @@
     
     NSMutableAttributedString *attrString = [self getScoreLabelText];
     
-    CGSize maximumLabelSize = CGSizeMake(self.view.bounds.size.width, labelHeight);
+    CGSize maximumLabelSize = CGSizeMake(self.originalContentView.bounds.size.width, labelHeight);
     
     NSString *string = attrString.string;
     CGRect textRect = [string boundingRectWithSize:maximumLabelSize
@@ -948,7 +1055,7 @@
     
     CGFloat labelWidth = ceil(textRect.size.width)+20.0 ;
     
-    CGFloat labelX = self.view.bounds.size.width - labelWidth - 5.0;
+    CGFloat labelX = self.originalContentView.bounds.size.width - labelWidth - 5.0;
     
     CGRect labelFrame = CGRectMake(labelX,labelY, labelWidth, labelHeight);
     
@@ -971,8 +1078,8 @@
     
     self.scoreLabel.attributedText = attrString;
     
-    [self.view addSubview:self.scoreLabel];
-    [self.view insertSubview:self.scoreLabel aboveSubview:self.logoImageView];
+    [self.originalContentView addSubview:self.scoreLabel];
+    [self.originalContentView insertSubview:self.scoreLabel aboveSubview:self.logoImageView];
     
     self.scoreLabel.alpha = 0.9;
     
@@ -1001,29 +1108,33 @@
     //ARTPlayer *player = self.currentGame.players[@"Player1"];
     
     UIFont * font;
+    UIFont * largeFont;
     if (IS_IPAD) {
-        font = [UIFont fontWithName:@"HelveticaNeue" size:29];
+        font = [UIFont fontWithName:@"HelveticaNeue" size:28];
+        largeFont = [UIFont fontWithName:@"HelveticaNeue" size:34];
+        
     }
     else {
-        font = [UIFont fontWithName:@"HelveticaNeue" size:19];
+        font = [UIFont fontWithName:@"HelveticaNeue" size:18];
+        largeFont = [UIFont fontWithName:@"HelveticaNeue" size:24];
     }
     UIColor *color = [UIColor whiteColor];
-
+    
     
     NSMutableAttributedString *attrString;
     
     if (self.selectedCard.isPlayed) {
-    
+        
         NSString *text = [NSString stringWithFormat:@"Score\n"];
         NSString *text2 = [NSString stringWithFormat:@"%ld",self.selectedCard.points];
-
         
-        attrString = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color,NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle)}];
         
-        NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:text2 attributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color}];
+        attrString = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color}];
+        
+        NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:text2 attributes:@{NSFontAttributeName:largeFont,NSForegroundColorAttributeName:color}];
         
         [attrString appendAttributedString:attrString2];
-    
+        
     } else {
         NSString *text = [NSString stringWithFormat:@"Not\nPlayed"];
         

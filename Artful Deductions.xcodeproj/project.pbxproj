@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		270DE5AE1A9659F200A70AE4 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 270DE5AC1A9659F200A70AE4 /* AdSupport.framework */; };
+		270DE5AF1A9659F200A70AE4 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 270DE5AD1A9659F200A70AE4 /* iAd.framework */; };
+		270DE5C81A96CDEE00A70AE4 /* ARTCardOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 270DE5C71A96CDEE00A70AE4 /* ARTCardOverlayView.m */; };
 		272E534619D1190F006253AB /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 272E534519D1190F006253AB /* Storyboard.storyboard */; };
 		273AB09B19F0249700FEABAA /* ARTScoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 273AB09A19F0249700FEABAA /* ARTScoreViewController.m */; };
 		273AB09F19F02C5000FEABAA /* ARTScoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 273AB09E19F02C5000FEABAA /* ARTScoreTableViewCell.m */; };
@@ -16,7 +19,6 @@
 		2744C9271999A062005F2161 /* ARTGalleryCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2744C9261999A062005F2161 /* ARTGalleryCardViewController.m */; };
 		2744C92B199B5387005F2161 /* ARTCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2744C92A199B5387005F2161 /* ARTCollectionViewFlowLayout.m */; };
 		2745FE9F1A47ADF1002F90E4 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 2745FE9E1A47ADF1002F90E4 /* Reachability.m */; };
-		2745FEA11A47AE55002F90E4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2745FEA01A47AE55002F90E4 /* SystemConfiguration.framework */; };
 		2745FEA41A47AEAA002F90E4 /* MTReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2745FEA31A47AEAA002F90E4 /* MTReachabilityManager.m */; };
 		2745FEA81A49A0BE002F90E4 /* ARTDailyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2745FEA71A49A0BE002F90E4 /* ARTDailyViewController.m */; };
 		27471BBB1992E74B00EF4656 /* ARTPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 27471BBA1992E74B00EF4656 /* ARTPlayer.m */; };
@@ -569,6 +571,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		270DE5AC1A9659F200A70AE4 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		270DE5AD1A9659F200A70AE4 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		270DE5B01A965A5900A70AE4 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = "../../../Downloads/GoogleMobileAdsSdkiOS-7.0.0/GoogleMobileAds.framework"; sourceTree = "<group>"; };
+		270DE5B21A965A6800A70AE4 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		270DE5B41A965A7200A70AE4 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		270DE5C61A96CDEE00A70AE4 /* ARTCardOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARTCardOverlayView.h; sourceTree = "<group>"; };
+		270DE5C71A96CDEE00A70AE4 /* ARTCardOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARTCardOverlayView.m; sourceTree = "<group>"; };
 		272E534519D1190F006253AB /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Storyboard.storyboard; path = ../Storyboard.storyboard; sourceTree = "<group>"; };
 		273AB09919F0249700FEABAA /* ARTScoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARTScoreViewController.h; sourceTree = "<group>"; };
 		273AB09A19F0249700FEABAA /* ARTScoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARTScoreViewController.m; sourceTree = "<group>"; };
@@ -1199,7 +1208,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2745FEA11A47AE55002F90E4 /* SystemConfiguration.framework in Frameworks */,
+				270DE5AE1A9659F200A70AE4 /* AdSupport.framework in Frameworks */,
+				270DE5AF1A9659F200A70AE4 /* iAd.framework in Frameworks */,
 				27ED81BD19FFF7D2005ABF81 /* Security.framework in Frameworks */,
 				27659A5A19953D050065CCA4 /* StoreKit.framework in Frameworks */,
 				2773B28B19607ABB006A128F /* CoreGraphics.framework in Frameworks */,
@@ -1290,6 +1300,11 @@
 		2773B28719607ABB006A128F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				270DE5B41A965A7200A70AE4 /* MessageUI.framework */,
+				270DE5B21A965A6800A70AE4 /* AudioToolbox.framework */,
+				270DE5B01A965A5900A70AE4 /* GoogleMobileAds.framework */,
+				270DE5AC1A9659F200A70AE4 /* AdSupport.framework */,
+				270DE5AD1A9659F200A70AE4 /* iAd.framework */,
 				2745FEA01A47AE55002F90E4 /* SystemConfiguration.framework */,
 				27ED81BC19FFF7D2005ABF81 /* Security.framework */,
 				27A04E9D19C2296E0098C4BB /* CoreLocation.framework */,
@@ -2043,6 +2058,8 @@
 				27FD342A19C3BFEB00648BA4 /* ARTCardScrollView.m */,
 				27757F1E19F473CC0089A211 /* ARTPassTouchesView.h */,
 				27757F1F19F473CC0089A211 /* ARTPassTouchesView.m */,
+				270DE5C61A96CDEE00A70AE4 /* ARTCardOverlayView.h */,
+				270DE5C71A96CDEE00A70AE4 /* ARTCardOverlayView.m */,
 			);
 			name = "Card View";
 			sourceTree = "<group>";
@@ -2747,6 +2764,7 @@
 				27E468171996F67B000F24C0 /* ARTGalleryViewController.m in Sources */,
 				27ED81AF19FFF510005ABF81 /* NSData+MKBase64.m in Sources */,
 				27AA812A1968C96500E952B7 /* ARTGame.m in Sources */,
+				270DE5C81A96CDEE00A70AE4 /* ARTCardOverlayView.m in Sources */,
 				277AF15619A55EE60087C39A /* ARTStoreItemViewController.m in Sources */,
 				27DACE7719D61A3A008417C0 /* URBAlertView.m in Sources */,
 				27F91FFA19F8256C00FCB3EA /* ARTSpeechBubleView.m in Sources */,
@@ -2915,6 +2933,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/Kyle/Downloads/GoogleMobileAdsSdkiOS-7.0.0",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ArtfulDeductions/ArtfulDeductions-Prefix.pch";
 				INFOPLIST_FILE = "ArtfulDeductions/ArtfulDeductions-Info.plist";
@@ -2933,6 +2955,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/Kyle/Downloads/GoogleMobileAdsSdkiOS-7.0.0",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ArtfulDeductions/ArtfulDeductions-Prefix.pch";
 				INFOPLIST_FILE = "ArtfulDeductions/ArtfulDeductions-Info.plist";

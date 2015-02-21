@@ -53,7 +53,7 @@ CGFloat const topBottomEdgeInsets = 10.0;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.view.opaque = YES;
+    self.originalContentView.opaque = YES;
     
     self.numberOfColumns = 3;
     self.numberColumnsSegmentControl.selectedSegmentIndex = 1;
@@ -61,12 +61,12 @@ CGFloat const topBottomEdgeInsets = 10.0;
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     self.backButton = [[UIButton alloc] backButtonWith:@"Menu" tintColor:[UIColor blueNavBarColor] target:self andAction:@selector(backButtonTapped:)];
-    [self.view addSubview:self.backButton];
+    [self.originalContentView addSubview:self.backButton];
     
     if ([[[ARTUserInfo sharedInstance] getVisualTheme] isEqual:@"white"]) {
-        self.view.backgroundColor = [UIColor lightBackgroundColor];//darkmode
+        self.originalContentView.backgroundColor = [UIColor lightBackgroundColor];//darkmode
     } else {
-        self.view.backgroundColor = [UIColor darkBackgroundColor];//darkmode
+        self.originalContentView.backgroundColor = [UIColor darkBackgroundColor];//darkmode
     }
 
     
@@ -84,7 +84,7 @@ CGFloat const topBottomEdgeInsets = 10.0;
     self.detailHeightConstraint.constant = 0.0;
     self.detailView.hidden = YES;
     
-    [self.view layoutIfNeeded];
+    [self.originalContentView layoutIfNeeded];
     
     self.toolbarHeightConstraintDefault = self.toolbarHeightConstraint.constant;
     
@@ -99,15 +99,15 @@ CGFloat const topBottomEdgeInsets = 10.0;
     
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@"Options" attributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:[UIColor blueNavBarColor]}];
     
-    self.optionButton = [[UIButton alloc] rightButtonWith:attrString tintColor:[UIColor blueNavBarColor] target:self andAction:@selector(detailBarButtonClicked:) withViewWidth:self.view.bounds.size.width ];
+    self.optionButton = [[UIButton alloc] rightButtonWith:attrString tintColor:[UIColor blueNavBarColor] target:self andAction:@selector(detailBarButtonClicked:) withViewWidth:self.originalContentView.bounds.size.width ];
 
-    [self.view addSubview:self.optionButton];
+    [self.originalContentView addSubview:self.optionButton];
     
     NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:@"Done" attributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:[UIColor blueNavBarColor]}];
     
-    self.doneButton = [[UIButton alloc] rightButtonWith:attrString2 tintColor:[UIColor blueNavBarColor] target:self andAction:@selector(detailBarButtonClicked:) withViewWidth:self.view.bounds.size.width ];
+    self.doneButton = [[UIButton alloc] rightButtonWith:attrString2 tintColor:[UIColor blueNavBarColor] target:self andAction:@selector(detailBarButtonClicked:) withViewWidth:self.originalContentView.bounds.size.width ];
     
-    [self.view addSubview:self.doneButton];
+    [self.originalContentView addSubview:self.doneButton];
     self.doneButton.alpha = 0.0;
     
 }
@@ -125,6 +125,11 @@ CGFloat const topBottomEdgeInsets = 10.0;
     
     [self.collectionView reloadData];
     
+    if (![MKStoreManager isFeaturePurchased:kProductClassicSeries]) {
+        self.canDisplayBannerAds = YES;
+    } else {
+        self.canDisplayBannerAds = NO;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -291,7 +296,7 @@ CGFloat const topBottomEdgeInsets = 10.0;
     }
 
     [self.logoImageView addSubview:label];
-    [self.view sendSubviewToBack:self.logoImageView];
+    [self.originalContentView sendSubviewToBack:self.logoImageView];
     
     if (self.topView) {
         [self.topView removeFromSuperview];
@@ -300,8 +305,8 @@ CGFloat const topBottomEdgeInsets = 10.0;
     
     self.topView = [[ARTTopView alloc] init];
     
-    [self.view addSubview:self.topView];
-    [self.view sendSubviewToBack:self.topView];
+    [self.originalContentView addSubview:self.topView];
+    [self.originalContentView sendSubviewToBack:self.topView];
 
 }
 
@@ -576,13 +581,13 @@ CGFloat const topBottomEdgeInsets = 10.0;
     
     if (indicator) self.detailView.hidden = NO;
 
-    [self.view layoutIfNeeded];
+    [self.originalContentView layoutIfNeeded];
     [UIView animateWithDuration:0.2
                           delay:0.0
                         options:UIViewAnimationOptionAllowAnimatedContent
                      animations:^{
                          self.detailHeightConstraint.constant = (indicator) ? self.detailHeightConstraintDefault : 0.0;
-                         [self.view layoutIfNeeded]; // Called on parent view
+                         [self.originalContentView layoutIfNeeded]; // Called on parent view
                      } completion:^(BOOL finished) {
                          if (!indicator) self.detailView.hidden = YES;
                      }];
@@ -614,12 +619,12 @@ CGFloat const topBottomEdgeInsets = 10.0;
     imageView.opaque = YES;
     
 
-    [self.view addSubview:imageView];
+    [self.originalContentView addSubview:imageView];
 
-    cardViewWidth = self.view.bounds.size.width;
-    cardViewHeight = self.view.bounds.size.height - 40.0;
-    cardViewX = self.view.bounds.origin.x;
-    cardViewY = 20.0;
+    cardViewWidth = self.originalContentView.bounds.size.width;
+    cardViewHeight = self.originalContentView.bounds.size.height - cardOverlayYOffset;
+    cardViewX = self.originalContentView.bounds.origin.x;
+    cardViewY = cardOverlayYOffset;
    
     CGRect nextFrame = CGRectMake(cardViewX, cardViewY, cardViewWidth, cardViewHeight);
     
@@ -628,12 +633,14 @@ CGFloat const topBottomEdgeInsets = 10.0;
     CGFloat zoomRatio;
     if (IS_OldIphone && [card.orientation isEqualToString:@"portrait"]) {
         zoomRatio = cardOverlayImageZoomIphone4Ratio;
+    } else if (IS_IPHONE_5 && [card.orientation isEqualToString:@"portrait"]) {
+        zoomRatio = cardOverlayImageZoomIphone5RatioPortrait;
     } else if (IS_IPAD && [card.orientation isEqualToString:@"portrait"]) {
         zoomRatio = cardOverlayImageZoomIpadRatioPortrait;
     } else if (IS_IPAD && [card.orientation isEqualToString:@"landscape"]) {
         zoomRatio = cardOverlayImageZoomIpadRatioLandscape;
     } else {
-        zoomRatio = cardOverlayImageZoomIphone5Ratio;
+        zoomRatio = cardOverlayImageZoomIphoneDefaultRatio;
     }
     trans = CGAffineTransformScale(trans, 1.0/zoomRatio, 1.0/zoomRatio);
     
@@ -677,14 +684,14 @@ CGFloat const topBottomEdgeInsets = 10.0;
 - (void)animateTappedCardToPileWithIndexPath:(NSIndexPath *)indexPath {
     
     [self.collectionView reloadData];
-    [self.view layoutIfNeeded];
+    [self.originalContentView layoutIfNeeded];
     
     NSArray *visibleCells = [self.collectionView indexPathsForVisibleItems];
     
     if (![visibleCells containsObject:indexPath]) {
         [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:NO];
             [self.collectionView reloadData];
-            [self.view layoutIfNeeded];
+            [self.originalContentView layoutIfNeeded];
     }
     
     ARTCollectionViewCell *tappedCell = (ARTCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
@@ -698,10 +705,10 @@ CGFloat const topBottomEdgeInsets = 10.0;
     CGFloat cardViewX;
     CGFloat cardViewY;
     
-    cardViewWidth = self.view.bounds.size.width;
-    cardViewHeight = self.view.bounds.size.height - 40.0;
-    cardViewX = self.view.bounds.origin.x;
-    cardViewY = 20.0;
+    cardViewWidth = self.originalContentView.bounds.size.width;
+    cardViewHeight = self.originalContentView.bounds.size.height - cardOverlayYOffset;
+    cardViewX = self.originalContentView.bounds.origin.x;
+    cardViewY = cardOverlayYOffset;
     
     CGRect mainViewFrame = CGRectMake(cardViewX, cardViewY, cardViewWidth, cardViewHeight);
     
@@ -712,12 +719,14 @@ CGFloat const topBottomEdgeInsets = 10.0;
     CGFloat zoomRatio;
     if (IS_OldIphone && [card.orientation isEqualToString:@"portrait"]) {
         zoomRatio = cardOverlayImageZoomIphone4Ratio;
+    } else if (IS_IPHONE_5 && [card.orientation isEqualToString:@"portrait"]) {
+        zoomRatio = cardOverlayImageZoomIphone5RatioPortrait;
     } else if (IS_IPAD && [card.orientation isEqualToString:@"portrait"]) {
         zoomRatio = cardOverlayImageZoomIpadRatioPortrait;
     } else if (IS_IPAD && [card.orientation isEqualToString:@"landscape"]) {
         zoomRatio = cardOverlayImageZoomIpadRatioLandscape;
     } else {
-        zoomRatio = cardOverlayImageZoomIphone5Ratio;
+        zoomRatio = cardOverlayImageZoomIphoneDefaultRatio;
     }
     trans = CGAffineTransformScale(trans, 1.0/zoomRatio, 1.0/zoomRatio);
     imageView.transform = trans;
@@ -727,7 +736,7 @@ CGFloat const topBottomEdgeInsets = 10.0;
     imageView.opaque = YES;
     
     
-    [self.view addSubview:imageView];
+    [self.originalContentView addSubview:imageView];
     
     cardViewWidth = tappedCell.frame.size.width;
     cardViewHeight = tappedCell.frame.size.height;
@@ -739,13 +748,16 @@ CGFloat const topBottomEdgeInsets = 10.0;
     trans = imageView.transform;
     if (IS_OldIphone && [card.orientation isEqualToString:@"portrait"]) {
         zoomRatio = cardOverlayImageZoomIphone4Ratio;
+    } else if (IS_IPHONE_5 && [card.orientation isEqualToString:@"portrait"]) {
+        zoomRatio = cardOverlayImageZoomIphone5RatioPortrait;
     } else if (IS_IPAD && [card.orientation isEqualToString:@"portrait"]) {
         zoomRatio = cardOverlayImageZoomIpadRatioPortrait;
     } else if (IS_IPAD && [card.orientation isEqualToString:@"landscape"]) {
         zoomRatio = cardOverlayImageZoomIpadRatioLandscape;
     } else {
-        zoomRatio = cardOverlayImageZoomIphone5Ratio;
+        zoomRatio = cardOverlayImageZoomIphoneDefaultRatio;
     }
+    
     trans = CGAffineTransformScale(trans, zoomRatio, zoomRatio);
     
     CGFloat duration;

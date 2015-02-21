@@ -55,7 +55,8 @@ extern CGFloat const scrollViewVerticalAdjustmentOldIphone;
 extern CGFloat const cardOverlayXOffset;
 extern CGFloat const cardOverlayYOffset;
 
-extern CGFloat const cardOverlayImageZoomIphone5Ratio;
+extern CGFloat const cardOverlayImageZoomIphoneDefaultRatio;
+extern CGFloat const cardOverlayImageZoomIphone5RatioPortrait;
 extern CGFloat const cardOverlayImageZoomIpadRatioPortrait;
 extern CGFloat const cardOverlayImageZoomIpadRatioLandscape;
 extern CGFloat const cardOverlayImageZoomIphone4Ratio;

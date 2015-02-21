@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <iAd/iAd.h>
 #import "ARTGameDelegate.h"
 #import "ARTCardDelegate.h"
 
@@ -43,5 +44,7 @@
 
 - (UIImage *)pb_takeSnapshot;
 - (UIView *)pb_takeSnapshotView;
+
+//- (void)updateForCardOverlayViewBoundsChange;
 
 @end

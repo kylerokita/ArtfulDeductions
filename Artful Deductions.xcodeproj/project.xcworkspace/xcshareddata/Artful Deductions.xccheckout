@@ -10,14 +10,18 @@
 	<string>Artful Deductions</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>31728FE428F904808A94E2E59F795AC8D1597E41</key>
+		<key>64620DB4BB88F48BDB94306B44BC120FBCC82EB9</key>
+		<string>https://github.com/larsacus/LARSAdController.git</string>
+		<key>98E48F75D07D2D4A0F0D09E1014B946D5D808D9A</key>
 		<string>https://github.com/futbalguy/ArtfulDeductions.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Artful Deductions.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>31728FE428F904808A94E2E59F795AC8D1597E41</key>
+		<key>64620DB4BB88F48BDB94306B44BC120FBCC82EB9</key>
+		<string>../../LARSAdController/</string>
+		<key>98E48F75D07D2D4A0F0D09E1014B946D5D808D9A</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
@@ -25,16 +29,24 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>31728FE428F904808A94E2E59F795AC8D1597E41</string>
+	<string>98E48F75D07D2D4A0F0D09E1014B946D5D808D9A</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>31728FE428F904808A94E2E59F795AC8D1597E41</string>
+			<string>98E48F75D07D2D4A0F0D09E1014B946D5D808D9A</string>
 			<key>IDESourceControlWCCName</key>
 			<string>ArtfulDeductions</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>64620DB4BB88F48BDB94306B44BC120FBCC82EB9</string>
+			<key>IDESourceControlWCCName</key>
+			<string>LARSAdController</string>
 		</dict>
 	</array>
 </dict>

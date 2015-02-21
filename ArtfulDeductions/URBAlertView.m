@@ -1356,7 +1356,7 @@ CGSize const kURBAlertViewDefaultSizeIPad = {460.0, 220.0};
             overlay.alertView = self;
             overlay.frame = self.window.bounds;
             overlay.alpha = 0.0;
-            overlay.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.35];
+            overlay.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.25];
 
         }
         

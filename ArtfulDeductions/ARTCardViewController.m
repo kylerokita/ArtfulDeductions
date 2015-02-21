@@ -38,6 +38,9 @@
 #import "ARTSpeechLabel.h"
 #import "ARTMessageViewController.h"
 #import "iRate.h"
+#import "ARTCardOverlayView.h"
+
+#import "MKStoreManager.h"
 
 
 CGFloat const cardStatusCardOverlayXOffset = 5.0;
@@ -53,7 +56,7 @@ CGFloat const questionViewXOffsetIpad = 5.0;
 
 @interface ARTCardViewController ()
 
-@property (strong, nonatomic) UIView *cardOverlayView;
+@property (strong, nonatomic) ARTCardOverlayView *cardOverlayView;
 
 @property (strong, nonatomic) UIImageView *logoImageView;
 @property (strong, nonatomic) UIView *roundStatusView;
@@ -144,9 +147,9 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     [super viewDidLoad];
     
     if ([[[ARTUserInfo sharedInstance] getVisualTheme] isEqual:@"white"]) {
-        self.view.backgroundColor = [UIColor lightBackgroundColor];
+        self.originalContentView.backgroundColor = [UIColor lightBackgroundColor];
     } else {
-        self.view.backgroundColor = [UIColor darkBackgroundColor];
+        self.originalContentView.backgroundColor = [UIColor darkBackgroundColor];
     }
     
     [self initializeCardGlobalVariables];
@@ -154,9 +157,6 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     [self.selectedCard resetCard];
     
     self.currentGame.delegate = self;
-    
-    self.cardOverlayView = [self makeCardOverlayViewWithCard:self.selectedCard];
-    [self.view addSubview:self.cardOverlayView];
     
 }
 
@@ -174,6 +174,11 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     self.navigationItem.hidesBackButton = YES;
     self.isOKToShowNavigationBar = YES;
+
+    [self makeCardOverlayViewWithCard:self.selectedCard];
+    
+    [self.originalContentView layoutIfNeeded];
+    [self.cardOverlayView layoutIfNeeded];
     
     self.backButton = [[UIButton alloc] backButtonWith:@"Topics" tintColor:[UIColor blueNavBarColor] target:self andAction:@selector(backButtonTapped:)];
     self.backButton.alpha = 0.0;
@@ -188,7 +193,7 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     self.scorePlaceholderView.alpha = 0.0;
     
     /*   if ([[ARTUserInfo sharedInstance] showTutorialForScreen:@"questionScreen"] ) {
-     self.view.userInteractionEnabled = NO; //beforetutorial is shown, no not allow user interaction
+     self.originalContentView.userInteractionEnabled = NO; //beforetutorial is shown, no not allow user interaction
      [self performSelector:@selector(showTutorial) withObject:nil afterDelay:0.0 inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
      [[ARTUserInfo sharedInstance] saveShowedTutorialForScreen:@"questionScreen"];
      
@@ -197,9 +202,14 @@ CGFloat const questionViewXOffsetIpad = 5.0;
 
     [self startQuestionTapDetected:nil];
         
-    
-    
+    if (![MKStoreManager isFeaturePurchased:kProductClassicSeries]) {
+        self.canDisplayBannerAds = YES;
+     } else {
+         self.canDisplayBannerAds = NO;
+     }
+
 }
+
 
 - (void)setupScoreView {
     
@@ -212,7 +222,7 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     
     CGFloat width = 200.0;
     CGFloat height = self.logoImageView.frame.size.height;
-    CGFloat x = self.view.bounds.size.width - width - 5.0;
+    CGFloat x = self.originalContentView.bounds.size.width - width - 5.0;
     CGFloat y = self.logoImageView.frame.origin.y;
     
     CGRect avatarPlaceholderFrame = CGRectMake(x,y, width, height);
@@ -220,14 +230,14 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     self.scorePlaceholderView = [[UIView alloc] initWithFrame:avatarPlaceholderFrame];
     
     
-    [self.view addSubview:self.scorePlaceholderView];
+    [self.originalContentView addSubview:self.scorePlaceholderView];
     
     
     NSMutableAttributedString *attrString = [self getScoreLabelText];
     
     CGFloat labelHeight = self.scorePlaceholderView.bounds.size.height;
     
-    CGSize maximumLabelSize = CGSizeMake(self.view.bounds.size.width, labelHeight);
+    CGSize maximumLabelSize = CGSizeMake(self.originalContentView.bounds.size.width, labelHeight);
     
     NSString *string = attrString.string;
     CGRect textRect = [string boundingRectWithSize:maximumLabelSize
@@ -285,11 +295,15 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     //ARTPlayer *player = self.currentGame.players[@"Player1"];
     
     UIFont * font;
+    UIFont * largeFont;
     if (IS_IPAD) {
-        font = [UIFont fontWithName:@"HelveticaNeue" size:29];
+        font = [UIFont fontWithName:@"HelveticaNeue" size:28];
+        largeFont = [UIFont fontWithName:@"HelveticaNeue" size:34];
+
     }
     else {
-        font = [UIFont fontWithName:@"HelveticaNeue" size:19];
+        font = [UIFont fontWithName:@"HelveticaNeue" size:18];
+        largeFont = [UIFont fontWithName:@"HelveticaNeue" size:24];
     }
     UIColor *color = [UIColor whiteColor];
     
@@ -302,9 +316,9 @@ CGFloat const questionViewXOffsetIpad = 5.0;
         NSString *text2 = [NSString stringWithFormat:@"%ld",self.selectedCard.points];
         
         
-        attrString = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color,NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle)}];
+        attrString = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color}];
         
-        NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:text2 attributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color}];
+        NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:text2 attributes:@{NSFontAttributeName:largeFont,NSForegroundColorAttributeName:color}];
         
         [attrString appendAttributedString:attrString2];
         
@@ -342,6 +356,10 @@ CGFloat const questionViewXOffsetIpad = 5.0;
                                                  name:UIKeyboardDidHideNotification
                                                object:nil];
     
+    NSLog(@"%@",self.originalContentView);
+    NSLog(@"%@",self.view);
+    NSLog(@"%@",self.cardOverlayView);
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -362,12 +380,12 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     if (show) {
         
         if (!self.overlay) {
-            self.overlay = [[UIView alloc] initWithFrame:self.view.bounds];
+            self.overlay = [[UIView alloc] initWithFrame:self.originalContentView.bounds];
             self.overlay.opaque = YES;
             
             self.overlay.backgroundColor = [UIColor colorWithRed: 0 green: 0 blue: 0 alpha: 0.8];
             
-            [self.view addSubview:self.overlay];
+            [self.originalContentView addSubview:self.overlay];
         }
         
     } else {
@@ -387,7 +405,7 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     UIInterfaceOrientation currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     if ((UIDeviceOrientationIsLandscape(toInterfaceOrientation) && UIDeviceOrientationIsPortrait(currentOrientation)) || (UIDeviceOrientationIsPortrait(toInterfaceOrientation) && UIDeviceOrientationIsLandscape(currentOrientation))) {
         
-        self.cardOverlayView.frame = CGRectMake(0, 0, self.view.frame.size.height, self.view.frame.size.width);
+        self.cardOverlayView.frame = CGRectMake(0, 0, self.originalContentView.frame.size.height, self.originalContentView.frame.size.width);
     }
     
     if (UIDeviceOrientationIsLandscape(toInterfaceOrientation)) {
@@ -445,7 +463,7 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     self.cardOverlayScrollView.frame = [self makeCardOverlayScrollViewFrameWithCard:self.selectedCard withScreenOrientation:toInterfaceOrientation];
     
     // handles the rotation for card with landscape orientation
-    if (UIDeviceOrientationIsPortrait(toInterfaceOrientation)) {
+   /* if (UIDeviceOrientationIsPortrait(toInterfaceOrientation)) {
         CGFloat rotationAngle;
         if ([self.selectedCard.orientation  isEqual: @"portrait"]) {
             rotationAngle = 0;
@@ -457,19 +475,48 @@ CGFloat const questionViewXOffsetIpad = 5.0;
         CGAffineTransform trans = CGAffineTransformRotate(tempView.transform,rotationAngle);
         tempView.transform = trans;
         self.cardOverlayScrollView.frame = tempView.frame;
-    }
-    
-    if ([self.selectedCard.orientation  isEqual: @"portrait"]) {
-        [self setZoomMinimumForView:self.cardOverlayScrollView withCardOrientation:@"portrait" andScreenOrientationIsPortrait:(UIDeviceOrientationIsPortrait(toInterfaceOrientation))];
-    } else {
-        [self setZoomMinimumForView:self.cardOverlayScrollView withCardOrientation:@"landscape" andScreenOrientationIsPortrait:(UIDeviceOrientationIsPortrait(toInterfaceOrientation))] ;
-    }
-    
-    [self.cardOverlayScrollView setZoomScale:self.cardOverlayScrollView.minimumZoomScale animated:YES];
-    [self centerScrollViewContents];
+    }*/
     
 }
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [self setZoomMinimumForView:self.cardOverlayScrollView withCardOrientation:self.selectedCard.orientation];
+    [self.cardOverlayScrollView setZoomScale:self.cardOverlayScrollView.minimumZoomScale animated:YES];
+}
+
+- (CGFloat)setZoomMinimumForView:(UIScrollView *)scrollView withCardOrientation:(NSString *)cardOrientation {
+    
+    CGFloat scaleWidth;
+    CGFloat scaleHeight;
+    CGFloat minScale;
+    
+    
+    
+    scaleWidth = scrollView.bounds.size.width / self.cardOverlayFrontImageView.image.size.width;
+    scaleHeight = scrollView.bounds.size.height / self.cardOverlayFrontImageView.image.size.height;
+    
+    
+    UIInterfaceOrientation screenOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
+    CGFloat zoomRatio;
+    if (IS_OldIphone && [cardOrientation isEqualToString:@"portrait"] && UIDeviceOrientationIsPortrait(screenOrientation)) {
+        zoomRatio = cardOverlayImageZoomIphone4Ratio;
+    } else if (IS_IPHONE_5 && [cardOrientation isEqualToString:@"portrait"] && UIDeviceOrientationIsPortrait(screenOrientation)) {
+        zoomRatio = cardOverlayImageZoomIphone5RatioPortrait;
+    } else if (IS_IPAD && [cardOrientation isEqualToString:@"portrait"] && UIDeviceOrientationIsPortrait(screenOrientation) ) {
+        zoomRatio = cardOverlayImageZoomIpadRatioPortrait;
+    } else if (IS_IPAD && [cardOrientation isEqualToString:@"landscape"] ) {
+        zoomRatio = cardOverlayImageZoomIpadRatioLandscape;
+    } else {
+        zoomRatio = cardOverlayImageZoomIphoneDefaultRatio;
+    }
+    
+    minScale = MIN(scaleWidth, scaleHeight) / zoomRatio; //come back
+    scrollView.minimumZoomScale = minScale;
+    
+    return minScale;
+    
+}
 
 
 - (void)initializeCardGlobalVariables {
@@ -497,14 +544,51 @@ CGFloat const questionViewXOffsetIpad = 5.0;
 
 #pragma mark Game Overlay View Creation Methods
 
-- (UIView *)makeCardOverlayViewWithCard:(ARTCard *)card {
+-(void)viewWillLayoutSubviews {
+
+    self.cardOverlayView.frame = self.originalContentView.bounds;
     
-    CGRect cardOverlayViewShape = self.view.frame;
-    UIView *cardOverlayView = [[UIView alloc] initWithFrame:cardOverlayViewShape];
+    UIInterfaceOrientation currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     
-    self.cardOverlayView.backgroundColor = self.view.backgroundColor;
+    self.cardOverlayScrollView.frame = [self makeCardOverlayScrollViewFrameWithCard:self.selectedCard withScreenOrientation:currentOrientation];
+    [self.cardOverlayScrollView setZoomScale:self.cardOverlayScrollView.minimumZoomScale animated:NO];
+    [self centerScrollViewContents];
+}
+
+/*- (void)updateForCardOverlayViewBoundsChange {
     
-    self.cardOverlayView = cardOverlayView;
+    UIInterfaceOrientation currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+
+    self.cardOverlayScrollView.frame = [self makeCardOverlayScrollViewFrameWithCard:self.selectedCard withScreenOrientation:currentOrientation];
+    [self.cardOverlayScrollView setZoomScale:self.cardOverlayScrollView.minimumZoomScale animated:NO];
+    [self centerScrollViewContents];
+    //CGAffineTransform transform = self.cardOverlayScrollView.transform;
+    //self.cardOverlayScrollView.frame =
+    
+    NSLog(@"scrollview: %@",self.cardOverlayScrollView);
+}*/
+
+- (void)makeCardOverlayViewWithCard:(ARTCard *)card {
+    
+    CGRect cardOverlayViewShape = self.originalContentView.bounds;
+    self.cardOverlayView = [[ARTCardOverlayView alloc] initWithFrame:cardOverlayViewShape];
+    self.cardOverlayView.delegateController = self;
+    [self.originalContentView addSubview:self.cardOverlayView];
+    
+    NSLayoutConstraint *labelConstraintTop = [NSLayoutConstraint constraintWithItem:self.originalContentView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.cardOverlayView attribute:NSLayoutAttributeTop multiplier:NSLayoutRelationEqual constant:0.0];
+    
+    NSLayoutConstraint *labelConstraintBottom = [NSLayoutConstraint constraintWithItem:self.originalContentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.cardOverlayView attribute:NSLayoutAttributeBottom multiplier:NSLayoutRelationEqual constant:0.0];
+    
+    NSLayoutConstraint *labelConstraintLeft = [NSLayoutConstraint constraintWithItem:self.originalContentView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.cardOverlayView attribute:NSLayoutAttributeLeft multiplier:NSLayoutRelationEqual constant:0.0];
+    
+    NSLayoutConstraint *labelConstraintRight = [NSLayoutConstraint constraintWithItem:self.originalContentView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.cardOverlayView attribute:NSLayoutAttributeRight multiplier:NSLayoutRelationEqual constant:0.0];
+    
+    [self.originalContentView addConstraints:@[labelConstraintTop,labelConstraintBottom,labelConstraintLeft,labelConstraintRight]];
+    
+    [self.originalContentView layoutIfNeeded];
+    [self.cardOverlayView layoutIfNeeded];
+    
+    self.cardOverlayView.backgroundColor = self.originalContentView.backgroundColor;
     
     self.logoImageView = [self makeLogoImageView];
     
@@ -544,17 +628,15 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     
     self.roundStatusDotView = [self makeRoundStatusDotViewHidden];
     
-    [cardOverlayView addSubview:self.logoImageView];
-    [cardOverlayView addSubview:self.cardOverlayScrollView];
-    [cardOverlayView addSubview:self.roundStatusView];
-    [cardOverlayView addSubview:self.roundStatusDotView];
-    [cardOverlayView addSubview:self.cardOverlayQuestionView];
-    [cardOverlayView addSubview:self.cardOverlayBottomView];
-    [cardOverlayView addSubview:self.cardOverlayAnswerMenu];
-    [cardOverlayView addSubview:self.cardOverlayReviewArtMenu];
+    [self.cardOverlayView addSubview:self.logoImageView];
+    [self.cardOverlayView addSubview:self.cardOverlayScrollView];
+    [self.cardOverlayView addSubview:self.roundStatusView];
+    [self.cardOverlayView addSubview:self.roundStatusDotView];
+    [self.cardOverlayView addSubview:self.cardOverlayQuestionView];
+    [self.cardOverlayView addSubview:self.cardOverlayBottomView];
+    [self.cardOverlayView addSubview:self.cardOverlayAnswerMenu];
+    [self.cardOverlayView addSubview:self.cardOverlayReviewArtMenu];
     
-    
-    return cardOverlayView;
 }
 
 - (UIImageView *)makeLogoImageView {
@@ -562,10 +644,10 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     CGFloat width;
     CGFloat height;
     if (IS_IPAD) {
-        width = 180.0;
+        width = 220.0;
         height = 75.0;
     } else {
-        width = 140.0;
+        width = 150.0;
         height = 50.0;
     }
     
@@ -611,8 +693,8 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     self.topView = [[ARTTopView alloc] init];
     
     
-    [self.view addSubview:self.topView];
-    [self.view sendSubviewToBack:self.topView];
+    [self.cardOverlayView addSubview:self.topView];
+    [self.cardOverlayView sendSubviewToBack:self.topView];
     
     return imageView;
     
@@ -659,13 +741,13 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     UIImage *portraitImage = [[ARTImageHelper sharedInstance] getHQImageWithFileName:cardFilename ];
     
     UIImageView *imageView;
-    if ([card.orientation  isEqual: @"portrait"]) {
+    //if ([card.orientation  isEqual: @"portrait"]) {
         imageView = [[UIImageView alloc] initWithImage:portraitImage];
         
-    } else {
-        UIImage *landscapeImage = [[UIImage alloc] initWithCGImage:portraitImage.CGImage scale:1.0 orientation:UIImageOrientationRight];
-        imageView = [[UIImageView alloc] initWithImage:landscapeImage];
-    }
+    // } else {
+    //    UIImage *landscapeImage = [[UIImage alloc] initWithCGImage:portraitImage.CGImage scale:1.0 orientation:UIImageOrientationRight];
+        //     imageView = [[UIImageView alloc] initWithImage:landscapeImage];
+        // }
     
     CGFloat imageViewWidth = imageView.image.size.width;
     CGFloat imageViewHeight = imageView.image.size.height;
@@ -680,12 +762,8 @@ CGFloat const questionViewXOffsetIpad = 5.0;
         CGFloat shadowOffset = [HQpixelsforPic floatValue] / 150.0 * shadowOffsetForDPI150;
         //add shadow
         imageView.layer.shadowColor = [UIColor blackColor].CGColor;
-        if ([card.orientation  isEqual: @"portrait"]) {
-            imageView.layer.shadowOffset = CGSizeMake(shadowOffset, shadowOffset);
-            
-        } else {
-            imageView.layer.shadowOffset = CGSizeMake(-shadowOffset, shadowOffset);
-        }
+        imageView.layer.shadowOffset = CGSizeMake(shadowOffset, shadowOffset);
+
         imageView.layer.shadowOpacity = shadowOpacity;
         imageView.layer.shadowRadius = [HQpixelsforPic floatValue] / 150.0 * shadowRadiusForDPI150;
         imageView.layer.shadowPath = [UIBezierPath bezierPathWithRect:imageView.bounds].CGPath;
@@ -718,15 +796,15 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     scrollView.delegate = self;
     scrollView.contentSize = self.cardOverlayFrontImageView.image.size;
     
-    CGAffineTransform trans = CGAffineTransformRotate(scrollView.transform,rotationAngle);
-    scrollView.transform = trans;
+    //CGAffineTransform trans = CGAffineTransformRotate(scrollView.transform,rotationAngle);
+    //scrollView.transform = trans;
     
     
     CGFloat minScale;
     if ([card.orientation  isEqual: @"portrait"]) {
-        minScale = [self setZoomMinimumForView:scrollView withCardOrientation:@"portrait" andScreenOrientationIsPortrait:YES];
+        minScale = [self setZoomMinimumForView:scrollView withCardOrientation:@"portrait"];
     } else {
-        minScale = [self setZoomMinimumForView:scrollView withCardOrientation:@"landscape" andScreenOrientationIsPortrait:YES];
+        minScale = [self setZoomMinimumForView:scrollView withCardOrientation:@"landscape"];
     }
     scrollView.maximumZoomScale = 1.0;
     scrollView.zoomScale = minScale;
@@ -765,7 +843,7 @@ CGFloat const questionViewXOffsetIpad = 5.0;
         xOffset = questionViewXOffsetIphone;
     }
     
-    CGRect initialShape= CGRectMake(xOffset, 0.0, self.view.frame.size.width - xOffset * 2.0, self.view.frame.size.height);
+    CGRect initialShape= CGRectMake(xOffset, 0.0, self.originalContentView.frame.size.width - xOffset * 2.0, self.originalContentView.frame.size.height);
     self.cardOverlayQuestionView = [[UIView alloc] initWithFrame:initialShape];
     
     self.cardOverlayQuestionView.opaque = YES;
@@ -1358,6 +1436,7 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     CGRect viewShape = [self makeCardOverlayBottomViewFrameScreenOrientation:UIInterfaceOrientationPortrait];
     
     UIView *bottomView = [[UIView alloc] initWithFrame:viewShape];
+    
     [bottomView setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.0]];
     
     [bottomView addSubview:self.cardOverlayQuestionMenu];
@@ -1607,7 +1686,7 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     
     CGFloat textX = menuShape.origin.x + menuShape.size.width + textXOffset;
     CGFloat textY = menuShape.origin.y;
-    CGFloat textWidth = self.view.frame.size.width - menuShape.size.width - textXOffset - menuShape.origin.x * 2.0;
+    CGFloat textWidth = self.originalContentView.frame.size.width - menuShape.size.width - textXOffset - menuShape.origin.x * 2.0;
     CGFloat textHeight = menuShape.size.height;
     
     CGRect textShape = CGRectMake(textX, textY, textWidth, textHeight);
@@ -1869,26 +1948,26 @@ CGFloat const questionViewXOffsetIpad = 5.0;
         verticalAdjustment = scrollViewVerticalAdjustmentIpad;
     }
     
-    if (UIDeviceOrientationIsPortrait(screenOrientation)) {
-        if ([card.orientation  isEqual: @"portrait"]) {
+    //if (UIDeviceOrientationIsPortrait(screenOrientation)) {
+        // if ([card.orientation  isEqual: @"portrait"]) {
             cardViewX = cardViewXOffset;
             cardViewY = cardViewYOffset;
             cardViewWidth = self.cardOverlayView.frame.size.width - cardViewX * 2;
-            cardViewHeight = self.cardOverlayView.frame.size.height - cardViewY * 2 - verticalAdjustment;
+            cardViewHeight = self.cardOverlayView.frame.size.height - cardViewY - verticalAdjustment;
             
-        } else {
+        /*} else {
             cardViewWidth = self.cardOverlayView.frame.size.height - cardViewYOffset * 2  - verticalAdjustment;
             cardViewHeight = self.cardOverlayView.frame.size.width - cardViewXOffset * 2;
             cardViewX = cardViewXOffset - (cardViewWidth - cardViewHeight)/2;
             cardViewY = cardViewYOffset + (cardViewWidth - cardViewHeight)/2;
-        }
-    } else {
+        }*/
+   /* } else {
         
         cardViewX = 0.0;
         cardViewY = 0.0;
-        cardViewWidth = self.view.frame.size.height;
-        cardViewHeight = self.view.frame.size.width - cardViewY;
-    }
+        cardViewWidth = self.originalContentView.frame.size.height;
+        cardViewHeight = self.originalContentView.frame.size.width - cardViewY;
+    }*/
     
     CGRect cardViewShape = CGRectMake(cardViewX, cardViewY, cardViewWidth, cardViewHeight);
     
@@ -1932,16 +2011,16 @@ CGFloat const questionViewXOffsetIpad = 5.0;
 - (CGRect)moveFrame:(CGRect)frame offScreenInDirection:(screenDirection)direction withScreenRatio:(CGFloat)ratio {
     
     if (direction == kRight) {
-        frame.origin.x += self.view.bounds.size.width * ratio;
+        frame.origin.x += self.originalContentView.bounds.size.width * ratio;
     }
     else if (direction == kLeft) {
-        frame.origin.x -= self.view.bounds.size.width * ratio;
+        frame.origin.x -= self.originalContentView.bounds.size.width * ratio;
     }
     else if (direction == kUp) {
-        frame.origin.y -= self.view.bounds.size.height * ratio;
+        frame.origin.y -= self.originalContentView.bounds.size.height * ratio;
     }
     else if (direction == kDown) {
-        frame.origin.y += self.view.bounds.size.height * ratio;
+        frame.origin.y += self.originalContentView.bounds.size.height * ratio;
     }
     
     return frame;
@@ -1953,27 +2032,29 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     CGFloat scaleHeight;
     CGFloat minScale;
     
-    if ([cardOrientation  isEqual: @"portrait"]) {
+    //if ([cardOrientation  isEqual: @"portrait"]) {
         
         scaleWidth = scrollView.frame.size.width / self.cardOverlayFrontImageView.image.size.width;
         scaleHeight = scrollView.frame.size.height / self.cardOverlayFrontImageView.image.size.height;
         
-    } else {
+    // } else {
         
-        scaleWidth = scrollView.frame.size.width / self.cardOverlayFrontImageView.image.size.height;
-        scaleHeight = scrollView.frame.size.height / self.cardOverlayFrontImageView.image.size.width;
+    //     scaleWidth = scrollView.frame.size.width / self.cardOverlayFrontImageView.image.size.height;
+    //     scaleHeight = scrollView.frame.size.height / self.cardOverlayFrontImageView.image.size.width;
         
-    }
+    // }
     
     CGFloat zoomRatio;
     if (IS_OldIphone && [cardOrientation isEqualToString:@"portrait"] && screenOrientationIsPortrait) {
         zoomRatio = cardOverlayImageZoomIphone4Ratio;
+    } else if (IS_IPHONE_5 && [cardOrientation isEqualToString:@"portrait"] && screenOrientationIsPortrait) {
+        zoomRatio = cardOverlayImageZoomIphone5RatioPortrait;
     } else if (IS_IPAD && [cardOrientation isEqualToString:@"portrait"] && screenOrientationIsPortrait) {
         zoomRatio = cardOverlayImageZoomIpadRatioPortrait;
     } else if (IS_IPAD && [cardOrientation isEqualToString:@"landscape"]) {
         zoomRatio = cardOverlayImageZoomIpadRatioLandscape;
     } else {
-        zoomRatio = cardOverlayImageZoomIphone5Ratio;
+        zoomRatio = cardOverlayImageZoomIphoneDefaultRatio;
     }
     
     minScale = MIN(scaleWidth, scaleHeight) / zoomRatio; //come back
@@ -2119,7 +2200,7 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     CGFloat menuWidth = self.cardOverlayAnswerMenu.frame.size.width;
     CGFloat menuHeight = self.cardOverlayAnswerMenu.frame.size.height;
     CGFloat menuX = self.cardOverlayAnswerMenu.frame.origin.x;
-    CGFloat menuY = self.view.frame.size.height - menuHeight - menuYOffset;
+    CGFloat menuY = self.originalContentView.frame.size.height - menuHeight - menuYOffset;
     
     
     CGRect nextFrame = CGRectMake(menuX, menuY, menuWidth, menuHeight);
@@ -2171,7 +2252,7 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     CGFloat menuWidth = self.cardOverlayReviewArtMenu.frame.size.width;
     CGFloat menuHeight = self.cardOverlayReviewArtMenu.frame.size.height;
     CGFloat menuX = self.cardOverlayReviewArtMenu.frame.origin.x;
-    CGFloat menuY = self.view.frame.size.height - menuHeight - menuYOffset;
+    CGFloat menuY = self.originalContentView.frame.size.height - menuHeight - menuYOffset;
     
     
     CGRect nextFrame = CGRectMake(menuX, menuY, menuWidth, menuHeight);
@@ -2505,8 +2586,8 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     
     CGFloat placeholderWidth = titleX * 2.0 + titleLabel.frame.size.width;
     CGFloat placeholderHeight = messageLabel.frame.origin.y + messageLabel.frame.size.height + (message == nil ? 0. : messageSpacing);
-    CGFloat placeholderX = (self.view.frame.size.width - placeholderWidth) / 2.0;
-    CGFloat placeholderY = (self.view.frame.size.height - placeholderHeight) / 2.0;
+    CGFloat placeholderX = (self.originalContentView.frame.size.width - placeholderWidth) / 2.0;
+    CGFloat placeholderY = (self.originalContentView.frame.size.height - placeholderHeight) / 2.0;
     
     CGRect placeHolderShape = CGRectMake(placeholderX, placeholderY, placeholderWidth, placeholderHeight);
     UIView *placeHolderView = [[UIView alloc] initWithFrame:placeHolderShape];
@@ -2526,7 +2607,7 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     [placeHolderView addSubview:titleLabel];
     [placeHolderView addSubview:messageLabel];
     
-    [self.view addSubview:placeHolderView];
+    [self.originalContentView addSubview:placeHolderView];
     
     // convert button over to internal button
     
@@ -2571,12 +2652,12 @@ CGFloat const questionViewXOffsetIpad = 5.0;
         
         
         [avatarImageContainerView addSubview:self.roundStatusView];
-        [self.view addSubview:avatarImageContainerView];
+        [self.originalContentView addSubview:avatarImageContainerView];
         
         
         
         roundStatusStartRect = [avatarImageContainerView convertRect:self.roundStatusView.frame toView:self.cardOverlayView];
-        placeHolderStartRect = [self.view convertRect:placeHolderView.frame toView:self.cardOverlayView];
+        placeHolderStartRect = [self.originalContentView convertRect:placeHolderView.frame toView:self.cardOverlayView];
         
         UIImage *image = [[ARTImageHelper sharedInstance] getStopWatchImage];
         clockImageView = [[UIImageView alloc] initWithFrame:self.roundStatusView.bounds];
@@ -2635,7 +2716,7 @@ CGFloat const questionViewXOffsetIpad = 5.0;
      
      
      [avatarImageContainerView addSubview:alertImageView];
-     [self.view addSubview:avatarImageContainerView];
+     [self.originalContentView addSubview:avatarImageContainerView];
      
      
      ARTSpeechBubleView *avatarSpeechBubble = [[ARTSpeechBubleView alloc] initWithFrame:CGRectZero andSpeechText:speechText];
@@ -2762,9 +2843,7 @@ CGFloat const questionViewXOffsetIpad = 5.0;
                                              [self.cardOverlayView insertSubview:self.roundStatusDotView aboveSubview:self.roundStatusView];
                                              self.isOKForAnimateRoundStatusViewDot = YES;
                                              self.roundStatusDotView.hidden = NO;
-                                             
-                                             NSLog(@"view: %@",self.roundStatusDotView);
-                                             NSLog(@"view: %@",self.view);
+                                 
                                              
                                              //    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
                                              //  [dict setValue:[NSNumber numberWithFloat:0.75] forKey:@"progressNumber"];
@@ -2808,9 +2887,9 @@ CGFloat const questionViewXOffsetIpad = 5.0;
 }
 
 - (UIImage *)pb_takeSnapshot {
-    UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, [UIScreen mainScreen].scale);
+    UIGraphicsBeginImageContextWithOptions(self.originalContentView.bounds.size, NO, [UIScreen mainScreen].scale);
     
-    [self.view drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:YES];
+    [self.originalContentView drawViewHierarchyInRect:self.originalContentView.bounds afterScreenUpdates:YES];
     
     // old style [self.layer renderInContext:UIGraphicsGetCurrentContext()];
     
@@ -2820,9 +2899,9 @@ CGFloat const questionViewXOffsetIpad = 5.0;
 }
 
 - (UIView *)pb_takeSnapshotView {
-    //UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, [UIScreen mainScreen].scale);
+    //UIGraphicsBeginImageContextWithOptions(self.originalContentView.bounds.size, NO, [UIScreen mainScreen].scale);
     
-    UIView *snapshot = [self.view snapshotViewAfterScreenUpdates:YES];
+    UIView *snapshot = [self.originalContentView snapshotViewAfterScreenUpdates:YES];
     
     // old style [self.layer renderInContext:UIGraphicsGetCurrentContext()];
     
@@ -2848,7 +2927,7 @@ CGFloat const questionViewXOffsetIpad = 5.0;
             maxWidth = kURBAlertViewDefaultSizeIPhone5.width - 18.0;
         }
         
-        CGFloat maxHeight = self.view.frame.size.height - y * 2.0;
+        CGFloat maxHeight = self.originalContentView.frame.size.height - y * 2.0;
         
         CGSize maxLabelSizeTitle = CGSizeMake(maxWidth, maxHeight);
         
@@ -3137,9 +3216,9 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     //  [self.correctAnswerAlertView addAlertImage:avatarImage imageScale:1.0 backgroundColor:[UIColor clearColor] captionText:avatar.name ];
     //  [self.correctAnswerAlertView addSpeechBubbleWithSpeechText:avatarMessage];
     
-    //  UIImage *thumbsUpImage = [[ARTImageHelper sharedInstance] getThumbsUpImage];
+      UIImage *thumbsUpImage = [[ARTImageHelper sharedInstance] getThumbsUpImage];
     
-    // [self.correctAnswerAlertView addAlertImage:thumbsUpImage imageScale:0.82 backgroundColor:[UIColor greenishColor] captionText:nil ];
+     [self.correctAnswerAlertView addAlertImage:thumbsUpImage imageScale:0.82 backgroundColor:[UIColor greenishColor] captionText:nil ];
     
     
     [self.correctAnswerAlertView setHandlerBlock:^(NSInteger buttonIndex, URBAlertView *alertView) {
@@ -3755,7 +3834,7 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     NSValue* aValue = userInfo[UIKeyboardFrameEndUserInfoKey];
     
     CGRect keyboardRect = [aValue CGRectValue];
-    keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
+    keyboardRect = [self.originalContentView convertRect:keyboardRect fromView:nil];
     CGRect intersect = CGRectIntersection(self.cardOverlayView.frame, keyboardRect);
     
     CGRect keyboardRectAndBottomMenu = keyboardRect;
@@ -4161,7 +4240,7 @@ CGFloat const questionViewXOffsetIpad = 5.0;
     
     [self presentViewController:vc animated:YES completion:^{
         
-        self.view.userInteractionEnabled = YES; //after tutorial is shown, allow user interaction
+        self.originalContentView.userInteractionEnabled = YES; //after tutorial is shown, allow user interaction
         
     }];
 }

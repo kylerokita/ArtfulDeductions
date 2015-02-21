@@ -49,9 +49,9 @@
     
     CGFloat height;
     if (IS_IPAD) {
-        height = 100.0;
+        height = 97.0;
     } else {
-        height = 75.0;
+        height = 72.0;
     }
     
     CGRect frame = CGRectMake(screen.bounds.origin.x, screen.bounds.origin.y, screen.bounds.size.width, height);

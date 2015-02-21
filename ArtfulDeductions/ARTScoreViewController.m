@@ -130,7 +130,7 @@
         color = [UIColor whiteColor];
     }
     
-    UIColor *possibleColor = [UIColor grayColor];
+    UIColor *possibleColor = [UIColor lightGrayColor];
         
     NSString *imageString = @"\nArt";
     
@@ -162,7 +162,7 @@
     self.possiblePointsHeader.backgroundColor = self.scorePlaceholder.backgroundColor;
     self.possiblePointsHeader.opaque = YES;
     
-    NSString *actualPointsString = @"Actual\nPoints";
+    NSString *actualPointsString = @"Scored\nPoints";
     
     NSMutableAttributedString *actualPointsAttrString = [[NSMutableAttributedString alloc] initWithString:actualPointsString attributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color,NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle)}];
     

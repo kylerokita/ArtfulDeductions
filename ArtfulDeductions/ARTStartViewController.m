@@ -262,7 +262,7 @@ NSString *defaultLocation = @"the Milky Way Galaxy";
         self.imageViewPlaceholderTopConstraint.constant = 10.0;
         self.imageViewPlaceholderBottomConstraint.constant = 10.0;
     } else if (IS_IPAD) {
-        self.menuPlaceholderHeightConstraint.constant = 260.0;
+        self.menuPlaceholderHeightConstraint.constant = 270.0;
         self.menuPlaceholderBottomConstraint.constant = 20.0;
         self.logoImageViewTopMarginConstraint.constant = 20.0;
         self.imageViewPlaceholderTopConstraint.constant = 15.0;
@@ -381,8 +381,8 @@ NSString *defaultLocation = @"the Milky Way Galaxy";
             [self preferredStatusBarStyleIsBlack:NO]; //darkmode
         }
         
-        //  _isOKToAnimateCardsOnScreen = YES;
-        // [self resetAnimateCardTimer];
+          _isOKToAnimateCardsOnScreen = YES;
+         [self resetAnimateCardTimer];
         
         [self.view bringSubviewToFront:self.imageViewPlaceholder];
         
@@ -882,20 +882,20 @@ NSString *defaultLocation = @"the Milky Way Galaxy";
 
     UIFont * font;
     if (IS_OldIphone) {
-        font = [UIFont fontWithName:@"HelveticaNeue" size:26];
+        font = [UIFont fontWithName:@"HelveticaNeue" size:28];
     } else if (IS_IPHONE_5){
-        font = [UIFont fontWithName:@"HelveticaNeue" size:26];
+        font = [UIFont fontWithName:@"HelveticaNeue" size:28];
     } else if (IS_IPHONE_6){
-        font = [UIFont fontWithName:@"HelveticaNeue" size:30];
-    } else if (IS_IPHONE_6Plus){
         font = [UIFont fontWithName:@"HelveticaNeue" size:32];
+    } else if (IS_IPHONE_6Plus){
+        font = [UIFont fontWithName:@"HelveticaNeue" size:34];
     } else if (IS_IPAD){
-        font = [UIFont fontWithName:@"HelveticaNeue" size:50];
+        font = [UIFont fontWithName:@"HelveticaNeue" size:52];
     } else {
-        font = [UIFont fontWithName:@"HelveticaNeue" size:26];
+        font = [UIFont fontWithName:@"HelveticaNeue" size:28];
     }
     
-    UIFont * largeFont = [UIFont fontWithName:font.fontName size:font.pointSize + 6.0];
+    UIFont * largeFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:font.pointSize + 4.0];
     
     UIColor *color;
     
@@ -935,7 +935,7 @@ NSString *defaultLocation = @"the Milky Way Galaxy";
     //Gallery Button
     UIButton *cardGalleryButton = menu.arrayOfButtons[buttonIndex++];
     
-    NSMutableAttributedString *attrString5 = [[NSMutableAttributedString alloc] initWithString:@"Card Gallery" attributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color}];
+    NSMutableAttributedString *attrString5 = [[NSMutableAttributedString alloc] initWithString:@"Trivia Gallery" attributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color}];
     [cardGalleryButton setAttributedTitle:attrString5 forState:UIControlStateNormal];
     
     UITapGestureRecognizer *cardGalleryTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(galleryTapDetected:)];
@@ -1586,7 +1586,7 @@ NSString *defaultLocation = @"the Milky Way Galaxy";
      NSMutableAttributedString *attrString6 = [[NSMutableAttributedString alloc] initWithString:text5 attributes:@{NSForegroundColorAttributeName:color,NSFontAttributeName:font}];*/
     
     color = lowlight;
-    NSString *text6 = [NSString stringWithFormat:@"%@ combines\nintriguing trivia,\nbeautiful art,\nand\nclever clues.\n\n\nThe answers are common words and phrases that you can deduce.\n\n\n",appTitle];
+    NSString *text6 = [NSString stringWithFormat:@"%@ combines\nintriguing trivia,\nbeautiful art,\nand\nclever clues.\n\n\nThe answers are common words and phrases that you can deduce!\n\n\n",appTitle];
     
     NSMutableAttributedString *attrString7 = [[NSMutableAttributedString alloc] initWithString:text6 attributes:@{NSForegroundColorAttributeName:color,NSFontAttributeName:font}];
     
@@ -1884,12 +1884,14 @@ NSString *defaultLocation = @"the Milky Way Galaxy";
     CGFloat zoomRatio;
     if (IS_OldIphone && [card.orientation isEqualToString:@"portrait"]) {
         zoomRatio = cardOverlayImageZoomIphone4Ratio;
+    } else if (IS_IPHONE_5 && [card.orientation isEqualToString:@"portrait"]) {
+        zoomRatio = cardOverlayImageZoomIphone5RatioPortrait;
     } else if (IS_IPAD && [card.orientation isEqualToString:@"portrait"]) {
         zoomRatio = cardOverlayImageZoomIpadRatioPortrait;
     } else if (IS_IPAD && [card.orientation isEqualToString:@"landscape"]) {
         zoomRatio = cardOverlayImageZoomIpadRatioLandscape;
     } else {
-        zoomRatio = cardOverlayImageZoomIphone5Ratio;
+        zoomRatio = cardOverlayImageZoomIphoneDefaultRatio;
     }
     trans = CGAffineTransformScale(trans, 1.0/zoomRatio, 1.0/zoomRatio);
     
@@ -1973,12 +1975,14 @@ NSString *defaultLocation = @"the Milky Way Galaxy";
     CGFloat zoomRatio;
     if (IS_OldIphone && [card.orientation isEqualToString:@"portrait"]) {
         zoomRatio = cardOverlayImageZoomIphone4Ratio;
+    } else if (IS_IPHONE_5 && [card.orientation isEqualToString:@"portrait"]) {
+        zoomRatio = cardOverlayImageZoomIphone5RatioPortrait;
     } else if (IS_IPAD && [card.orientation isEqualToString:@"portrait"]) {
         zoomRatio = cardOverlayImageZoomIpadRatioPortrait;
     } else if (IS_IPAD && [card.orientation isEqualToString:@"landscape"]) {
         zoomRatio = cardOverlayImageZoomIpadRatioLandscape;
     } else {
-        zoomRatio = cardOverlayImageZoomIphone5Ratio;
+        zoomRatio = cardOverlayImageZoomIphoneDefaultRatio;
     }
     trans = CGAffineTransformScale(trans, 1.0/zoomRatio, 1.0/zoomRatio);
     imageView.transform = trans;
@@ -2010,12 +2014,14 @@ NSString *defaultLocation = @"the Milky Way Galaxy";
     trans = imageView.transform;
     if (IS_OldIphone && [card.orientation isEqualToString:@"portrait"]) {
         zoomRatio = cardOverlayImageZoomIphone4Ratio;
+    } else if (IS_IPHONE_5 && [card.orientation isEqualToString:@"portrait"]) {
+        zoomRatio = cardOverlayImageZoomIphone5RatioPortrait;
     } else if (IS_IPAD && [card.orientation isEqualToString:@"portrait"]) {
         zoomRatio = cardOverlayImageZoomIpadRatioPortrait;
     } else if (IS_IPAD && [card.orientation isEqualToString:@"landscape"]) {
         zoomRatio = cardOverlayImageZoomIpadRatioLandscape;
     } else {
-        zoomRatio = cardOverlayImageZoomIphone5Ratio;
+        zoomRatio = cardOverlayImageZoomIphoneDefaultRatio;
     }
     trans = CGAffineTransformScale(trans, zoomRatio, zoomRatio);
     

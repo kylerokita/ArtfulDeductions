@@ -20,6 +20,7 @@
 #import "UIButton+Extensions.h"
 #import "ARTConstants.h"
 #import "ARTTopView.h"
+#import "MKStoreManager.h"
 
 @interface ARTGalleryCardViewController () {
     
@@ -50,9 +51,9 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     if ([[[ARTUserInfo sharedInstance] getVisualTheme] isEqual:@"white"]) {
-        self.view.backgroundColor = [UIColor lightBackgroundColor]; //darkmode
+        self.originalContentView.backgroundColor = [UIColor lightBackgroundColor]; //darkmode
     } else {
-        self.view.backgroundColor = [UIColor darkBackgroundColor]; //darkmode
+        self.originalContentView.backgroundColor = [UIColor darkBackgroundColor]; //darkmode
     }
     
     [self initializeCardGlobalVariables];
@@ -73,6 +74,12 @@
         self.bottomMenuHeightConstraint.constant = gameMenusHeightIpad;
     }
     
+    
+    if (![MKStoreManager isFeaturePurchased:kProductClassicSeries]) {
+        self.canDisplayBannerAds = YES;
+    } else {
+        self.canDisplayBannerAds = NO;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -90,27 +97,32 @@
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     
     self.backButton = [[UIButton alloc] backButtonWith:@"Gallery" tintColor:[UIColor blueNavBarColor] target:self andAction:@selector(backToGalleryTapDetected:)];
-    [self.view addSubview:self.backButton];
-    [self.view sendSubviewToBack:self.backButton];
+    [self.originalContentView addSubview:self.backButton];
+    [self.originalContentView sendSubviewToBack:self.backButton];
     
-    [self.view layoutIfNeeded];
+    [self.originalContentView layoutIfNeeded];
     
     [self setupLogoImageView];
+    
+    NSMutableArray *proportionArray = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithFloat:0.2],[NSNumber numberWithFloat:0.6],[NSNumber numberWithFloat:0.2],nil];
+    
     [self.bottomMenu setupWithButtonCount:3
+                   buttonWidthProportions:proportionArray
                                 withFrame:self.bottomMenu.bounds
                     withPortraitIndicator:NO];
+    
     [self setupBottomMenuButtons];
     
     [self setupScrollView];
     
-    [self.view layoutIfNeeded];
+    [self.originalContentView layoutIfNeeded];
     
     [self centerScrollViewContents];
     
     self.topView = [[ARTTopView alloc] init];
     
-    [self.view addSubview:self.topView];
-    [self.view sendSubviewToBack:self.topView];
+    [self.originalContentView addSubview:self.topView];
+    [self.originalContentView sendSubviewToBack:self.topView];
 }
 
 
@@ -120,6 +132,12 @@
     
     
     
+}
+
+-(void)viewWillLayoutSubviews {
+    
+    [self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:NO];
+    [self centerScrollViewContents];
 }
 
 - (void)setupLogoImageView {
@@ -136,7 +154,9 @@
     
     self.logoImageLabel = [[UILabel alloc] initWithFrame:self.logoImageView.bounds];
     self.logoImageLabel.textAlignment = NSTextAlignmentCenter;
-    self.logoImageLabel.text = self.cardInView.category;
+    
+    NSString *questionNumber = [self.cardInView.categoryNumber stringValue];
+    self.logoImageLabel.text = [NSString stringWithFormat:@"%@ #%@",self.cardInView.category,questionNumber];
     
     if ([[[ARTUserInfo sharedInstance] getVisualTheme] isEqual:@"white"]) {
         self.logoImageLabel.textColor = [UIColor blackColor];
@@ -154,7 +174,7 @@
     }
 
     [self.logoImageView addSubview:self.logoImageLabel];
-    [self.view sendSubviewToBack:self.logoImageView];
+    [self.originalContentView sendSubviewToBack:self.logoImageView];
     
 }
 
@@ -175,7 +195,7 @@
     
     UIButton *button0 = self.bottomMenu.arrayOfButtons[0];
     
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@"Previous" attributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color}];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@" " attributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color}];
     [button0 setAttributedTitle:attrString forState:UIControlStateNormal];
 
     UITapGestureRecognizer *previousCardGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(previousCardTapDetected:)];
@@ -183,11 +203,11 @@
     button0.userInteractionEnabled = YES;
     [button0 addGestureRecognizer:previousCardGesture];
     
-    [button0 addImage:[UIImage imageNamed:@"back"] rightSide:NO withXOffset:8.0];
+    [button0 addImage:[UIImage imageNamed:@"back"] rightSide:NO withXOffset:0.0];
     
     UIButton *button1 = self.bottomMenu.arrayOfButtons[1];
     
-    attrString = [[NSMutableAttributedString alloc] initWithString:@"Flip" attributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color}];
+    attrString = [[NSMutableAttributedString alloc] initWithString:@"Flip Question" attributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color}];
     [button1 setAttributedTitle:attrString forState:UIControlStateNormal];
     
     UITapGestureRecognizer *flipCardGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(flipCardTapDetected:)];
@@ -197,7 +217,7 @@
     
     UIButton *button2 = self.bottomMenu.arrayOfButtons[2];
     
-    attrString = [[NSMutableAttributedString alloc] initWithString:@"Next" attributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color}];
+    attrString = [[NSMutableAttributedString alloc] initWithString:@" " attributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color}];
     [button2 setAttributedTitle:attrString forState:UIControlStateNormal];
     
     UITapGestureRecognizer *nextCardGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(nextCardTapDetected:)];
@@ -205,7 +225,7 @@
     button2.userInteractionEnabled = YES;
     [button2 addGestureRecognizer:nextCardGesture];
     
-    [button2 addImage:[UIImage imageNamed:@"forward"] rightSide:YES withXOffset:8.0];
+    [button2 addImage:[UIImage imageNamed:@"forward"] rightSide:YES withXOffset:0.0];
     
 }
 
@@ -366,12 +386,14 @@
     CGFloat zoomRatio;
     if (IS_OldIphone && [cardOrientation isEqualToString:@"portrait"] && UIDeviceOrientationIsPortrait(screenOrientation)) {
         zoomRatio = cardOverlayImageZoomIphone4Ratio;
+    } else if (IS_IPHONE_5 && [cardOrientation isEqualToString:@"portrait"]) {
+        zoomRatio = cardOverlayImageZoomIphone5RatioPortrait;
     } else if (IS_IPAD && [cardOrientation isEqualToString:@"portrait"] && UIDeviceOrientationIsPortrait(screenOrientation) ) {
         zoomRatio = cardOverlayImageZoomIpadRatioPortrait;
-    }else if (IS_IPAD && [cardOrientation isEqualToString:@"landscape"] ) {
+    } else if (IS_IPAD && [cardOrientation isEqualToString:@"landscape"] ) {
         zoomRatio = cardOverlayImageZoomIpadRatioLandscape;
     } else {
-        zoomRatio = cardOverlayImageZoomIphone5Ratio;
+        zoomRatio = cardOverlayImageZoomIphoneDefaultRatio;
     }
     
     minScale = MIN(scaleWidth, scaleHeight) / zoomRatio; //come back
@@ -515,8 +537,9 @@
         
         [self animateCardView:self.cardFrontImageView OnScreenFromRight:NO];
         
-        self.logoImageLabel.text = self.cardInView.category;
-
+        NSString *questionNumber = [self.cardInView.categoryNumber stringValue];
+        self.logoImageLabel.text = [NSString stringWithFormat:@"%@ #%@",self.cardInView.category,questionNumber];
+        
     } else {
         
         [self advanceToPreviousCard];
@@ -616,7 +639,8 @@
         
         [self animateCardView:self.cardFrontImageView OnScreenFromRight:YES];
         
-        self.logoImageLabel.text = self.cardInView.category;
+        NSString *questionNumber = [self.cardInView.categoryNumber stringValue];
+        self.logoImageLabel.text = [NSString stringWithFormat:@"%@ #%@",self.cardInView.category,questionNumber];
         
     } else {
         

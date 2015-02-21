@@ -29,9 +29,10 @@ CGFloat const scrollViewVerticalAdjustmentOldIphone = 0.0;//20.0;
 CGFloat const cardOverlayXOffset = 0.0;
 CGFloat const cardOverlayYOffset = 20.0;
 
-CGFloat const cardOverlayImageZoomIphone5Ratio = 1.05;
-CGFloat const cardOverlayImageZoomIpadRatioPortrait = 1.2;
-CGFloat const cardOverlayImageZoomIpadRatioLandscape = 1.05;
+CGFloat const cardOverlayImageZoomIphoneDefaultRatio = 1.1;
+CGFloat const cardOverlayImageZoomIphone5RatioPortrait = 1.10;
+CGFloat const cardOverlayImageZoomIpadRatioPortrait = 1.30;
+CGFloat const cardOverlayImageZoomIpadRatioLandscape = 1.10;
 CGFloat const cardOverlayImageZoomIphone4Ratio = 1.25;
 
 
@@ -91,7 +92,7 @@ CGFloat const avatarOverlapIpad = 10.0;
 NSInteger const secondsForQuestion = 90;
 NSInteger const secondsUntilLettersAppear = 30;
 
-NSInteger const playableQuestionsTrial = 0;
+NSInteger const playableQuestionsTrial = 9999; //for now we are enabling all cards for people
 
 
 @implementation ARTConstants

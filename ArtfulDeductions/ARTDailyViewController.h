@@ -10,13 +10,14 @@
 
 #import "ARTCardDelegate.h"
 #import "ArtDailyViewDelegate.h"
+#import <iAd/iAd.h>
 
 @class ARTCard;
 @class ARTMenuObject;
 @class ARTCardScrollView;
 @class ARTTopView;
 
-@interface ARTDailyViewController : UIViewController <UINavigationControllerDelegate,UIScrollViewDelegate,ARTCardDelegate>
+@interface ARTDailyViewController : UIViewController <UINavigationControllerDelegate,UIScrollViewDelegate,ARTCardDelegate,ADInterstitialAdDelegate>
 
 
 @property (strong, nonatomic) ARTTopView *topView;

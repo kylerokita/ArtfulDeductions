@@ -77,7 +77,7 @@
         
     }
     
-    self.imageViewOverlay.backgroundColor = [self.deck.color colorWithAlphaComponent:0.4];
+    self.imageViewOverlay.backgroundColor = [self.deck.color colorWithAlphaComponent:0.8];
 
     
     if ([ARTCard isCardPlayed:self.card.uniqueID]) {

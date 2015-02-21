@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Artful Deductions LLC. All rights reserved.
 //
 
+#import <iAd/iAd.h>
+
 #import "ARTAppDelegate.h"
 #import "ARTGame.h"
 //#import "ARTIAPHelper.h"
@@ -18,6 +20,7 @@
 #import "iRate.h"
 #import "ARTConstants.h"
 #import "MTReachabilityManager.h"
+
 
 @interface ARTAppDelegate () <iRateDelegate, UIAlertViewDelegate>
 
@@ -48,7 +51,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [MTReachabilityManager sharedManager];
+    // [MTReachabilityManager sharedManager];
 
     
     // Override point for customization after application launch.
@@ -60,6 +63,7 @@
     [ARTUserInfo sharedInstance];
     [ARTAvatarHelper sharedInstance];
     [MKStoreManager sharedManager];
+    
     
     if ([application respondsToSelector:@selector(isRegisteredForRemoteNotifications)])
     {
@@ -113,6 +117,8 @@
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
     NSLog(@"My token is: %@", deviceToken);
+    
+    [[NSUserDefaults standardUserDefaults] setObject:deviceToken forKey:@"DeviceToken"];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error

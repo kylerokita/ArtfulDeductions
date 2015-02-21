@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Qp7-f9-kPe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Qp7-f9-kPe">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
@@ -81,6 +81,7 @@
                         <segue destination="j9b-1U-4VC" kind="push" identifier="GameSegue" id="E3f-k4-CVj"/>
                         <segue destination="YMm-kG-Mir" kind="push" identifier="SettingsSegue" id="1DV-QK-sGu"/>
                         <segue destination="28h-dH-T9O" kind="push" identifier="NewGameSegue" id="NAP-ts-O4g"/>
+                        <segue destination="7GW-in-qRl" kind="push" identifier="DailyCardSegue" id="HsC-8g-ShU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nBv-ZX-ijh" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -122,10 +123,10 @@
                                 <rect key="frame" x="0.0" y="151" width="600" height="388.5"/>
                             </scrollView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoDarkBlue" translatesAutoresizingMaskIntoConstraints="NO" id="vcI-XP-uEm">
-                                <rect key="frame" x="200" y="21" width="200" height="75"/>
+                                <rect key="frame" x="190" y="21" width="220" height="75"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="DIy-L3-Zcq"/>
-                                    <constraint firstAttribute="width" constant="200" id="Mxa-0J-uUE"/>
+                                    <constraint firstAttribute="width" constant="220" id="Mxa-0J-uUE"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -253,9 +254,9 @@
                                 </connections>
                             </segmentedControl>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoDarkBlue" translatesAutoresizingMaskIntoConstraints="NO" id="qXD-fB-P24">
-                                <rect key="frame" x="200" y="21" width="200" height="75"/>
+                                <rect key="frame" x="190" y="21" width="220" height="75"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="X1P-J7-wtP"/>
+                                    <constraint firstAttribute="width" constant="220" id="X1P-J7-wtP"/>
                                     <constraint firstAttribute="height" constant="75" id="zSZ-Gk-9jp"/>
                                 </constraints>
                             </imageView>
@@ -397,9 +398,9 @@
                                 </cells>
                             </collectionView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoDarkBlue" translatesAutoresizingMaskIntoConstraints="NO" id="oEX-6m-aBi">
-                                <rect key="frame" x="200" y="21" width="200" height="75"/>
+                                <rect key="frame" x="190" y="21" width="220" height="75"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="Q80-WM-0Yr"/>
+                                    <constraint firstAttribute="width" constant="220" id="Q80-WM-0Yr"/>
                                     <constraint firstAttribute="height" constant="75" id="mwC-bP-4UL"/>
                                 </constraints>
                             </imageView>
@@ -452,14 +453,14 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoDarkBlue" translatesAutoresizingMaskIntoConstraints="NO" id="O0h-ke-TAt">
-                                <rect key="frame" x="200" y="21" width="200" height="75"/>
+                                <rect key="frame" x="190" y="21" width="220" height="75"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="KPc-Sp-WBP"/>
-                                    <constraint firstAttribute="width" constant="200" id="ZSO-5C-rW7"/>
+                                    <constraint firstAttribute="width" constant="220" id="ZSO-5C-rW7"/>
                                 </constraints>
                             </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cXu-6e-tMb" customClass="ARTCardScrollView">
-                                <rect key="frame" x="0.0" y="20" width="600" height="560"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R8w-g4-oqi" customClass="ARTMenuObject">
                                 <rect key="frame" x="5" y="545" width="590" height="50"/>
@@ -473,7 +474,7 @@
                         <constraints>
                             <constraint firstItem="cXu-6e-tMb" firstAttribute="top" secondItem="u13-5I-JeW" secondAttribute="top" constant="20" id="04E-AB-uzq"/>
                             <constraint firstItem="O0h-ke-TAt" firstAttribute="top" secondItem="u13-5I-JeW" secondAttribute="top" constant="21" id="6Lx-bZ-99r"/>
-                            <constraint firstAttribute="bottom" secondItem="cXu-6e-tMb" secondAttribute="bottom" constant="20" id="HJ3-UA-o1d"/>
+                            <constraint firstAttribute="bottom" secondItem="cXu-6e-tMb" secondAttribute="bottom" id="HJ3-UA-o1d"/>
                             <constraint firstAttribute="trailing" secondItem="cXu-6e-tMb" secondAttribute="trailing" id="Tbd-u5-4hP"/>
                             <constraint firstAttribute="centerX" secondItem="O0h-ke-TAt" secondAttribute="centerX" id="YEU-p6-Ek1"/>
                             <constraint firstAttribute="centerX" secondItem="R8w-g4-oqi" secondAttribute="centerX" id="YIA-OP-8zz"/>
@@ -509,10 +510,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoDarkBlue" translatesAutoresizingMaskIntoConstraints="NO" id="8gM-bl-5dr">
-                                <rect key="frame" x="200" y="21" width="200" height="75"/>
+                                <rect key="frame" x="190" y="21" width="220" height="75"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="KL7-TV-SZq"/>
-                                    <constraint firstAttribute="width" constant="200" id="jcw-tC-raC"/>
+                                    <constraint firstAttribute="width" constant="220" id="jcw-tC-raC"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SEi-bY-ufP">
@@ -603,6 +604,7 @@
                         <segue destination="SA5-hR-zST" kind="push" identifier="CardSegue" id="dk2-8u-Zu0"/>
                         <segue destination="28h-dH-T9O" kind="push" identifier="PlayerSetup" id="E1b-28-xg2"/>
                         <segue destination="xIR-Pz-iNy" kind="push" identifier="StoreSegue" id="Vwq-As-2tS"/>
+                        <segue destination="7GW-in-qRl" kind="push" identifier="DailyCardSegue" id="sAi-Fk-Yfq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oIa-kY-R9a" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -638,10 +640,10 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoDarkBlue" translatesAutoresizingMaskIntoConstraints="NO" id="ivm-yq-3aI">
-                                <rect key="frame" x="200" y="21" width="200" height="75"/>
+                                <rect key="frame" x="190" y="21" width="220" height="75"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="5IE-Y9-ZJD"/>
-                                    <constraint firstAttribute="width" constant="200" id="rtt-g4-x22"/>
+                                    <constraint firstAttribute="width" constant="220" id="rtt-g4-x22"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dqt-qE-8Te">
@@ -803,10 +805,10 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoDarkBlue" translatesAutoresizingMaskIntoConstraints="NO" id="El6-RD-zHN">
-                                <rect key="frame" x="200" y="21" width="200" height="75"/>
+                                <rect key="frame" x="190" y="21" width="220" height="75"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="BPT-wB-Kua"/>
-                                    <constraint firstAttribute="width" constant="200" id="Esv-lG-5BW"/>
+                                    <constraint firstAttribute="width" constant="220" id="Esv-lG-5BW"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="49c-tu-HjC">
@@ -1436,13 +1438,73 @@
             </objects>
             <point key="canvasLocation" x="385" y="-629"/>
         </scene>
+        <!--Daily View Controller-->
+        <scene sceneID="PZD-8a-Xlg">
+            <objects>
+                <viewController id="7GW-in-qRl" customClass="ARTDailyViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8R9-F1-Cyg"/>
+                        <viewControllerLayoutGuide type="bottom" id="vZc-Sn-N4J"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jiq-X5-NSy">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoDarkBlue" translatesAutoresizingMaskIntoConstraints="NO" id="pFN-Zu-lXW">
+                                <rect key="frame" x="190" y="21" width="220" height="75"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="2Zh-ii-Mda"/>
+                                    <constraint firstAttribute="width" constant="220" id="Tqv-vc-dOY"/>
+                                </constraints>
+                            </imageView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eDO-D4-ocN" customClass="ARTCardScrollView">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                            </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KXb-1L-8Gc" customClass="ARTMenuObject">
+                                <rect key="frame" x="5" y="545" width="590" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="jA1-um-O9q"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="pFN-Zu-lXW" secondAttribute="centerX" id="2XS-hh-qTz"/>
+                            <constraint firstAttribute="bottom" secondItem="eDO-D4-ocN" secondAttribute="bottom" id="ExT-dh-pCt"/>
+                            <constraint firstItem="eDO-D4-ocN" firstAttribute="top" secondItem="jiq-X5-NSy" secondAttribute="top" constant="20" id="Fqf-at-kSD"/>
+                            <constraint firstAttribute="trailing" secondItem="eDO-D4-ocN" secondAttribute="trailing" id="Vjl-Qt-G42"/>
+                            <constraint firstItem="pFN-Zu-lXW" firstAttribute="top" secondItem="jiq-X5-NSy" secondAttribute="top" constant="21" id="d93-2Y-aQt"/>
+                            <constraint firstItem="eDO-D4-ocN" firstAttribute="leading" secondItem="jiq-X5-NSy" secondAttribute="leading" id="euM-be-LFP"/>
+                            <constraint firstItem="KXb-1L-8Gc" firstAttribute="leading" secondItem="jiq-X5-NSy" secondAttribute="leading" constant="5" id="fzs-Lg-T5a"/>
+                            <constraint firstAttribute="centerX" secondItem="KXb-1L-8Gc" secondAttribute="centerX" id="kCU-HY-zj8"/>
+                            <constraint firstAttribute="bottom" secondItem="KXb-1L-8Gc" secondAttribute="bottom" constant="5" id="vx4-ri-ZX1"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="lnc-5x-3SD"/>
+                    <connections>
+                        <outlet property="bottomMenu" destination="KXb-1L-8Gc" id="Zk2-YB-Fhw"/>
+                        <outlet property="bottomMenuHeightConstraint" destination="jA1-um-O9q" id="bSb-A1-Edj"/>
+                        <outlet property="logoImageView" destination="pFN-Zu-lXW" id="TSA-fx-bzW"/>
+                        <outlet property="scrollView" destination="eDO-D4-ocN" id="FQY-Ih-Ncn"/>
+                        <outlet property="scrollViewBottomHeightConstraint" destination="ExT-dh-pCt" id="L0H-AH-MEP"/>
+                        <outlet property="scrollViewTopHeightConstraint" destination="Fqf-at-kSD" id="sVS-63-Zpc"/>
+                        <segue destination="SA5-hR-zST" kind="push" identifier="CardSegue" id="Jod-vG-C3R"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ss3-uH-L8Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-253" y="-854"/>
+        </scene>
     </scenes>
     <resources>
         <image name="LogoDarkBlue" width="640" height="196"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="E3f-k4-CVj"/>
         <segue reference="E1b-28-xg2"/>
+        <segue reference="FXl-zc-1AK"/>
+        <segue reference="dk2-8u-Zu0"/>
         <segue reference="Vwq-As-2tS"/>
+        <segue reference="sAi-Fk-Yfq"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -77,7 +77,7 @@ static CGFloat const headerAnimationDelay = 5.0;
     [self initializeCardGlobalVariables];
     
     self.backButton = [[UIButton alloc] backButtonWith:@"Menu" tintColor:[UIColor blueNavBarColor] target:self andAction:@selector(backButtonTapped:)];
-    [self.view addSubview:self.backButton];
+    [self.originalContentView addSubview:self.backButton];
     
     _deckSections = [self getDeckSections];
     
@@ -162,7 +162,7 @@ static CGFloat const headerAnimationDelay = 5.0;
     [(ARTNavigationController*)[self navigationController] setLandscapeOK:NO];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     
-    [self.view layoutIfNeeded];
+    [self.originalContentView layoutIfNeeded];
     
     if (self.isFirstTimeShowing || self.isNonCardButtonPressed) {
         [MKStoreManager enablePurchasedProducts];
@@ -175,25 +175,31 @@ static CGFloat const headerAnimationDelay = 5.0;
     if (self.isFirstTimeShowing) {
         
         if ([[[ARTUserInfo sharedInstance] getVisualTheme] isEqual:@"white"]) {
-            self.view.backgroundColor = [UIColor lightBackgroundColor];
+            self.originalContentView.backgroundColor = [UIColor lightBackgroundColor];
         } else {
-            self.view.backgroundColor = [UIColor darkBackgroundColor];
+            self.originalContentView.backgroundColor = [UIColor darkBackgroundColor];
         }
         
         [self setupLogoImageView];
         [self setupCategoryPlaceholderView];
         
-        [self.view sendSubviewToBack:self.collectionView];
+        [self.originalContentView sendSubviewToBack:self.collectionView];
         
     }
     
    // [self setupAvatarImageview];
 
-    [self.view layoutIfNeeded];
+    [self.originalContentView layoutIfNeeded];
     
-    [self.view sendSubviewToBack:self.categoryPlaceholderView];
+    [self.originalContentView sendSubviewToBack:self.categoryPlaceholderView];
     
     [self.collectionView reloadData];
+    
+    if (![MKStoreManager isFeaturePurchased:kProductClassicSeries]) {
+        self.canDisplayBannerAds = YES;
+    } else {
+        self.canDisplayBannerAds = NO;
+    }
 }
 
 
@@ -202,7 +208,7 @@ static CGFloat const headerAnimationDelay = 5.0;
     
     NSLog(@"view did appear");
     
-    [self.view layoutIfNeeded];
+    [self.originalContentView layoutIfNeeded];
     
     
     if (self.isFirstTimeShowing) {
@@ -332,6 +338,9 @@ static CGFloat const headerAnimationDelay = 5.0;
     
     NSArray *subviews = [self.logoImageView subviews];
     if (subviews.count == 0) {
+        
+        
+        
         UILabel *label = [[UILabel alloc] initWithFrame:self.logoImageView.bounds];
         label.textAlignment = NSTextAlignmentCenter;
         label.text = @"Trivia\nTopics";
@@ -357,12 +366,12 @@ static CGFloat const headerAnimationDelay = 5.0;
     
     if (!self.topView) {
         self.topView = [[ARTTopView alloc] init];
-        [self.view addSubview:self.topView];
+        [self.originalContentView addSubview:self.topView];
 
     }
     
-    [self.view sendSubviewToBack:self.logoImageView];
-    [self.view sendSubviewToBack:self.topView];
+    [self.originalContentView sendSubviewToBack:self.logoImageView];
+    [self.originalContentView sendSubviewToBack:self.topView];
     
     
 }
@@ -375,14 +384,14 @@ static CGFloat const headerAnimationDelay = 5.0;
     if (!self.avatarPlaceholderView) {
         CGFloat width = 200.0;
         CGFloat height = self.logoImageView.frame.size.height;
-        CGFloat x = self.view.bounds.size.width - width - 2.0;
+        CGFloat x = self.originalContentView.bounds.size.width - width - 2.0;
         CGFloat y = self.logoImageView.frame.origin.y;
         
         CGRect avatarPlaceholderFrame = CGRectMake(x,y, width, height);
         
         self.avatarPlaceholderView = [[UIView alloc] initWithFrame:avatarPlaceholderFrame];
         self.avatarPlaceholderView.backgroundColor = [UIColor clearColor];
-        [self.view addSubview:self.avatarPlaceholderView];
+        [self.originalContentView addSubview:self.avatarPlaceholderView];
         
         CGFloat imageviewHeight = self.avatarPlaceholderView.bounds.size.height;
         CGFloat imageviewX = self.avatarPlaceholderView.bounds.size.width - imageviewHeight;
@@ -425,7 +434,7 @@ static CGFloat const headerAnimationDelay = 5.0;
         
         [self.avatarPlaceholderView addSubview:self.avatarImageview];
         [self.avatarPlaceholderView addSubview:self.avatarLabel];
-        [self.view addSubview:self.avatarPlaceholderView];
+        [self.originalContentView addSubview:self.avatarPlaceholderView];
         
         UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avatarTapDetected:)];
         singleTapGesture.numberOfTapsRequired = 1;
@@ -441,7 +450,7 @@ static CGFloat const headerAnimationDelay = 5.0;
 }
 
 - (void) setupCategoryPlaceholderView {
-    self.categoryPlaceholderView.backgroundColor = self.view.backgroundColor;
+    self.categoryPlaceholderView.backgroundColor = self.originalContentView.backgroundColor;
     self.categoryPlaceholderView.clipsToBounds = YES;
     
     if ([[[ARTUserInfo sharedInstance] getVisualTheme] isEqual:@"white"]) {
@@ -588,7 +597,7 @@ static CGFloat const headerAnimationDelay = 5.0;
     
     if (numberOfColumnsIphone == 2) {
         if (IS_IPAD) {
-            verticalAdj = 10.0;
+            verticalAdj = -10.0;
         } else {
             verticalAdj = 36.0;
         }
@@ -936,7 +945,7 @@ static CGFloat const headerAnimationDelay = 5.0;
     
     [self presentViewController:vc animated:YES completion:^{
         
-        self.view.userInteractionEnabled = YES; //after tutorial is shown, allow user interaction
+        self.originalContentView.userInteractionEnabled = YES; //after tutorial is shown, allow user interaction
         
         
     }];
@@ -946,12 +955,12 @@ static CGFloat const headerAnimationDelay = 5.0;
     
     if (show) {
         if (!self.overlay) {
-            self.overlay = [[UIView alloc] initWithFrame:self.view.bounds];
+            self.overlay = [[UIView alloc] initWithFrame:self.originalContentView.bounds];
             self.overlay.opaque = YES;
             
             self.overlay.backgroundColor = [UIColor colorWithRed: 0 green: 0 blue: 0 alpha: 0.8];
             
-            [self.view addSubview:self.overlay];
+            [self.originalContentView addSubview:self.overlay];
         }
         
         
@@ -966,9 +975,9 @@ static CGFloat const headerAnimationDelay = 5.0;
 }
 
 - (UIImage *)pb_takeSnapshot {
-    UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, [UIScreen mainScreen].scale);
+    UIGraphicsBeginImageContextWithOptions(self.originalContentView.bounds.size, NO, [UIScreen mainScreen].scale);
     
-    [self.view drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:YES];
+    [self.originalContentView drawViewHierarchyInRect:self.originalContentView.bounds afterScreenUpdates:YES];
     
     // old style [self.layer renderInContext:UIGraphicsGetCurrentContext()];
     
@@ -978,9 +987,9 @@ static CGFloat const headerAnimationDelay = 5.0;
 }
 
 - (UIView *)pb_takeSnapshotView {
-    //UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, [UIScreen mainScreen].scale);
+    //UIGraphicsBeginImageContextWithOptions(self.originalContentView.bounds.size, NO, [UIScreen mainScreen].scale);
     
-    UIView *snapshot = [self.view snapshotViewAfterScreenUpdates:YES];
+    UIView *snapshot = [self.originalContentView snapshotViewAfterScreenUpdates:YES];
     
     // old style [self.layer renderInContext:UIGraphicsGetCurrentContext()];
     
@@ -1244,8 +1253,8 @@ static CGFloat const headerAnimationDelay = 5.0;
     
     cardViewX = cardViewXOffset;
     cardViewY = cardViewYOffset;
-    cardViewWidth = self.view.bounds.size.width - cardViewX * 2;
-    cardViewHeight = self.view.bounds.size.height - cardViewY * 2 - verticalAdjustment;
+    cardViewWidth = self.originalContentView.bounds.size.width - cardViewX * 2;
+    cardViewHeight = self.originalContentView.bounds.size.height - cardViewY - verticalAdjustment;
     
     CGRect nextFrame = CGRectMake(cardViewX, cardViewY, cardViewWidth, cardViewHeight);
     
@@ -1254,27 +1263,27 @@ static CGFloat const headerAnimationDelay = 5.0;
     CGFloat zoomRatio;
     if (IS_OldIphone && [card.orientation isEqualToString:@"portrait"]) {
         zoomRatio = cardOverlayImageZoomIphone4Ratio;
+    } else if (IS_IPHONE_5 && [card.orientation isEqualToString:@"portrait"]) {
+        zoomRatio = cardOverlayImageZoomIphone5RatioPortrait;
     } else if (IS_IPAD && [card.orientation isEqualToString:@"portrait"]) {
         zoomRatio = cardOverlayImageZoomIpadRatioPortrait;
     } else if (IS_IPAD && [card.orientation isEqualToString:@"landscape"]) {
         zoomRatio = cardOverlayImageZoomIpadRatioLandscape;
     } else {
-        zoomRatio = cardOverlayImageZoomIphone5Ratio;
+        zoomRatio = cardOverlayImageZoomIphoneDefaultRatio;
     }
     trans = CGAffineTransformScale(trans, 1.0/zoomRatio, 1.0/zoomRatio);
     
-    [self.view addSubview:self.screenView];
+    [self.originalContentView addSubview:self.screenView];
     self.collectionView.hidden = YES;
 
-   // [self.view bringSubviewToFront:self.avatarPlaceholderView];
-   // [self.view insertSubview:self.topView belowSubview:self.avatarPlaceholderView];
-    [self.view bringSubviewToFront:self.topView];
-    [self.view insertSubview:self.logoImageView aboveSubview:self.topView];
-    [self.view insertSubview:self.backButton aboveSubview:self.topView];
+   // [self.originalContentView bringSubviewToFront:self.avatarPlaceholderView];
+   // [self.originalContentView insertSubview:self.topView belowSubview:self.avatarPlaceholderView];
+    [self.originalContentView bringSubviewToFront:self.topView];
+    [self.originalContentView insertSubview:self.logoImageView aboveSubview:self.topView];
+    [self.originalContentView insertSubview:self.backButton aboveSubview:self.topView];
 
-    [self.view insertSubview:self.tappedImageview belowSubview:self.topView];
-    
-
+    [self.originalContentView insertSubview:self.tappedImageview belowSubview:self.topView];
     
     
     UIView *blackOutView = [[UIView alloc] initWithFrame:self.tappedImageview.frame];
@@ -1364,7 +1373,7 @@ static CGFloat const headerAnimationDelay = 5.0;
 
 - (void)animateTappedCardOffScreen {
     
-    self.view.userInteractionEnabled = NO;
+    self.originalContentView.userInteractionEnabled = NO;
     
     [self.collectionView selectItemAtIndexPath:self.tappedIndexPath animated:YES scrollPosition:UICollectionViewScrollPositionNone];
 
@@ -1389,7 +1398,7 @@ static CGFloat const headerAnimationDelay = 5.0;
     }
     
     trans = CGAffineTransformScale(self.tappedImageview.transform, scaleRatio, scaleRatio);
-    nextCenter = CGPointMake(self.tappedImageview.center.x + self.view.bounds.size.width, self.tappedImageview.center.y);
+    nextCenter = CGPointMake(self.tappedImageview.center.x + self.originalContentView.bounds.size.width, self.tappedImageview.center.y);
     
     CGFloat duration;
     if (IS_IPAD) {
@@ -1437,7 +1446,7 @@ static CGFloat const headerAnimationDelay = 5.0;
                              
                          }
                          
-                         self.view.userInteractionEnabled = YES;
+                         self.originalContentView.userInteractionEnabled = YES;
                          
                          
                      }];
@@ -1499,12 +1508,14 @@ static CGFloat const headerAnimationDelay = 5.0;
         CGFloat zoomRatio;
         if (IS_OldIphone && [topCard.orientation isEqualToString:@"portrait"]) {
             zoomRatio = cardOverlayImageZoomIphone4Ratio;
+        } else if (IS_IPHONE_5 && [topCard.orientation isEqualToString:@"portrait"]) {
+            zoomRatio = cardOverlayImageZoomIphone5RatioPortrait;
         } else if (IS_IPAD && [topCard.orientation isEqualToString:@"portrait"]) {
             zoomRatio = cardOverlayImageZoomIpadRatioPortrait;
         } else if (IS_IPAD && [topCard.orientation isEqualToString:@"landscape"]) {
             zoomRatio = cardOverlayImageZoomIpadRatioLandscape;
         } else {
-            zoomRatio = cardOverlayImageZoomIphone5Ratio;
+            zoomRatio = cardOverlayImageZoomIphone4Ratio;
         }
         
         trans = CGAffineTransformScale(trans, 1/zoomRatio, 1/zoomRatio);
@@ -1573,6 +1584,22 @@ static CGFloat const headerAnimationDelay = 5.0;
         
     }
     
+    
+    CGFloat zoomRatio;
+    if (IS_OldIphone && [self.selectedCard.orientation isEqualToString:@"portrait"]) {
+        zoomRatio = cardOverlayImageZoomIphone4Ratio;
+    } else if (IS_IPHONE_5 && [self.selectedCard.orientation isEqualToString:@"portrait"]) {
+        zoomRatio = cardOverlayImageZoomIphone5RatioPortrait;
+    } else if (IS_IPAD && [self.selectedCard.orientation isEqualToString:@"portrait"]) {
+        zoomRatio = cardOverlayImageZoomIpadRatioPortrait;
+    } else if (IS_IPAD && [self.selectedCard.orientation isEqualToString:@"landscape"]) {
+        zoomRatio = cardOverlayImageZoomIpadRatioLandscape;
+    } else {
+        zoomRatio = cardOverlayImageZoomIphoneDefaultRatio;
+    }
+    
+    self.tappedImageview.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0/zoomRatio, 1.0/zoomRatio);
+
     
     CGFloat duration;
     if (IS_IPAD) {
