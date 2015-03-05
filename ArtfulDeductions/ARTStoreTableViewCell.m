@@ -97,9 +97,12 @@
 
 - (void)setupFirstImageView {
     
-    self.firstImageView.image = [[ARTImageHelper sharedInstance] getLQImageWithFileName:self.storeItem.imageFilenames[0] ];
-    self.firstImageView.contentMode = UIViewContentModeScaleAspectFit;
-    self.firstImageView.opaque = YES;
+    if (self.storeItem.imageFilenames.count > 0) {
+    
+        self.firstImageView.image = [[ARTImageHelper sharedInstance] getLQImageWithFileName:self.storeItem.imageFilenames[0] ];
+        self.firstImageView.contentMode = UIViewContentModeScaleAspectFit;
+        self.firstImageView.opaque = YES;
+    }
 }
 
 - (void)setupBuyButton {

@@ -95,7 +95,7 @@
     
     NSMutableArray *storeImageFilenames = [NSMutableArray new];
     
-    if ([product.productIdentifier isEqual:kProductClassicSeries]) {
+    if ([product.productIdentifier isEqual:kProductClassicSeries] || [product.productIdentifier isEqual:kProductRemoveAds] ) {
         
         NSMutableArray *triviaPack1ImageFileNames = [NSMutableArray arrayWithObjects:												@"DailyLife9",	@"DailyLife11",												@"DailyLife35",	@"DailyLife37",	@"DailyLife39",	@"Government1",			@"Government7",				@"Government15",				@"Government23",			@"Government29",						@"Language1",	@"Language3",													@"Language29",				@"Language37",	@"Language39",	@"Military1",			@"Military7",			@"Military13",			@"Military19",		@"Military23",																			@"Science1",	@"Science3",						@"Science15",				@"Science23",			@"Science29",																						nil];
 

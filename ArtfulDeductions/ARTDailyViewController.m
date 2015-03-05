@@ -36,7 +36,6 @@
 
 #import "MKStoreManager.h"
 
-//#import "LARSAdController.h"
 
 @interface ARTDailyViewController () {
     
@@ -155,13 +154,10 @@
     [self animateStartButtonFlash];
     
     
-    NSLog(@"Should add ad");
-    //[[LARSAdController sharedManager] addAdContainerToViewInViewController:self];
-    
-    if (![MKStoreManager isFeaturePurchased:kProductClassicSeries]) {
-        self.canDisplayBannerAds = YES;
-     } else {
+    if ([MKStoreManager isFeaturePurchased:kProductClassicSeries] || [MKStoreManager isFeaturePurchased:kProductRemoveAds]) {
         self.canDisplayBannerAds = NO;
+    } else {
+        self.canDisplayBannerAds = YES;
     }
 }
 - (void)viewDidAppear:(BOOL)animated {

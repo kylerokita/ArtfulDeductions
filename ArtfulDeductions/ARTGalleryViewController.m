@@ -125,10 +125,10 @@ CGFloat const topBottomEdgeInsets = 10.0;
     
     [self.collectionView reloadData];
     
-    if (![MKStoreManager isFeaturePurchased:kProductClassicSeries]) {
-        self.canDisplayBannerAds = YES;
-    } else {
+    if ([MKStoreManager isFeaturePurchased:kProductClassicSeries] || [MKStoreManager isFeaturePurchased:kProductRemoveAds]) {
         self.canDisplayBannerAds = NO;
+    } else {
+        self.canDisplayBannerAds = YES;
     }
 }
 

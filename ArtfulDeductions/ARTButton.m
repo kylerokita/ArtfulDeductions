@@ -80,7 +80,7 @@ CGFloat const buttonPressDelay = 0.15;
     
     if (highlighted) {
         NSNumber *boolNumber = [NSNumber numberWithBool:NO];
-        [self performSelector:@selector(setCustomHighlighted:) withObject:boolNumber afterDelay:buttonPressDelay inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
+        [self performSelector:@selector(setCustomHighlighted:) withObject:boolNumber afterDelay:buttonPressDelay inModes:[NSArray arrayWithObject: NSRunLoopCommonModes]];
     }
     
 }

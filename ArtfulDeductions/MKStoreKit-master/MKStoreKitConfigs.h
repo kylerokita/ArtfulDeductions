@@ -55,6 +55,7 @@
 
 #define kProductClassicSeries @"com.artfuldeductions.app.deckPack1"
 #define kProductClassicWiseGuys @"com.artfuldeductions.app.wiseGuysPack1"
+#define kProductRemoveAds @"com.artfuldeductions.app.removeAds"
 
 
 //#warning Shared Secret Missing Ignore this warning if you don't use auto-renewable subscriptions

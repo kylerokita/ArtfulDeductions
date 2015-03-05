@@ -323,10 +323,13 @@
 
     label.textAlignment = NSTextAlignmentCenter;
 
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"Trivia Art Samples" attributes:@{NSFontAttributeName:font,NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle),NSForegroundColorAttributeName:color}];
+    if (self.storeItem.imageFilenames.count > 0) {
 
-    label.attributedText = attributedString;
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"Trivia Art Samples" attributes:@{NSFontAttributeName:font,NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle),NSForegroundColorAttributeName:color}];
 
+        label.attributedText = attributedString;
+
+    }
 
     return label;
 }

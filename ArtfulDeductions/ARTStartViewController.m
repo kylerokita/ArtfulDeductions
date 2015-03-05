@@ -244,26 +244,26 @@ NSString *defaultLocation = @"the Milky Way Galaxy";
         self.imageViewPlaceholderTopConstraint.constant = 5.0;
         self.imageViewPlaceholderBottomConstraint.constant = 5.0;
     } else if (IS_IPHONE_5){
-        self.menuPlaceholderHeightConstraint.constant = 160.0;
+        self.menuPlaceholderHeightConstraint.constant = 190.0;
         self.menuPlaceholderBottomConstraint.constant = 10.0;
         self.logoImageViewTopMarginConstraint.constant = 30.0;
         self.imageViewPlaceholderTopConstraint.constant = 10.0;
         self.imageViewPlaceholderBottomConstraint.constant = 10.0;
     } else if (IS_IPHONE_6){
-        self.menuPlaceholderHeightConstraint.constant = 180.0;
+        self.menuPlaceholderHeightConstraint.constant = 210.0;
         self.menuPlaceholderBottomConstraint.constant = 10.0;
         self.logoImageViewTopMarginConstraint.constant = 30.0;
         self.imageViewPlaceholderTopConstraint.constant = 10.0;
         self.imageViewPlaceholderBottomConstraint.constant = 10.0;
     } else if (IS_IPHONE_6Plus){
-        self.menuPlaceholderHeightConstraint.constant = 200.0;
-        self.menuPlaceholderBottomConstraint.constant = 30.0;
+        self.menuPlaceholderHeightConstraint.constant = 230.0;
+        self.menuPlaceholderBottomConstraint.constant = 10.0;
         self.logoImageViewTopMarginConstraint.constant = 30.0;
         self.imageViewPlaceholderTopConstraint.constant = 10.0;
         self.imageViewPlaceholderBottomConstraint.constant = 10.0;
     } else if (IS_IPAD) {
-        self.menuPlaceholderHeightConstraint.constant = 270.0;
-        self.menuPlaceholderBottomConstraint.constant = 20.0;
+        self.menuPlaceholderHeightConstraint.constant = 320.0;
+        self.menuPlaceholderBottomConstraint.constant = 10.0;
         self.logoImageViewTopMarginConstraint.constant = 20.0;
         self.imageViewPlaceholderTopConstraint.constant = 15.0;
         self.imageViewPlaceholderBottomConstraint.constant = 15.0;
@@ -875,27 +875,27 @@ NSString *defaultLocation = @"the Milky Way Galaxy";
 
 - (ARTMenuObject *)makeStartMenu {
     
-    ARTMenuObject *menu = [[ARTMenuObject alloc] initWithButtonCount:3
+    ARTMenuObject *menu = [[ARTMenuObject alloc] initWithButtonCount:4
                                                            withFrame:self.menuPlaceholder.bounds
                                                withPortraitIndicator:YES];
     
 
     UIFont * font;
     if (IS_OldIphone) {
-        font = [UIFont fontWithName:@"HelveticaNeue" size:28];
+        font = [UIFont fontWithName:@"HelveticaNeue" size:26];
     } else if (IS_IPHONE_5){
-        font = [UIFont fontWithName:@"HelveticaNeue" size:28];
+        font = [UIFont fontWithName:@"HelveticaNeue" size:26];
     } else if (IS_IPHONE_6){
-        font = [UIFont fontWithName:@"HelveticaNeue" size:32];
+        font = [UIFont fontWithName:@"HelveticaNeue" size:30];
     } else if (IS_IPHONE_6Plus){
-        font = [UIFont fontWithName:@"HelveticaNeue" size:34];
+        font = [UIFont fontWithName:@"HelveticaNeue" size:32];
     } else if (IS_IPAD){
-        font = [UIFont fontWithName:@"HelveticaNeue" size:52];
+        font = [UIFont fontWithName:@"HelveticaNeue" size:50];
     } else {
-        font = [UIFont fontWithName:@"HelveticaNeue" size:28];
+        font = [UIFont fontWithName:@"HelveticaNeue" size:26];
     }
     
-    UIFont * largeFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:font.pointSize + 4.0];
+    UIFont * largeFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:font.pointSize + 6.0];
     
     UIColor *color;
     
@@ -943,7 +943,7 @@ NSString *defaultLocation = @"the Milky Way Galaxy";
     cardGalleryButton.userInteractionEnabled = YES;
     [cardGalleryButton addGestureRecognizer:cardGalleryTap];
     
-    /*
+    
     //Card Store Button
     UIButton *cardStoreButton = menu.arrayOfButtons[buttonIndex++];
     
@@ -953,7 +953,7 @@ NSString *defaultLocation = @"the Milky Way Galaxy";
     UITapGestureRecognizer *cardStoreTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(storeTapDetected:)];
     cardStoreTap.numberOfTapsRequired = 1;
     cardStoreButton.userInteractionEnabled = YES;
-    [cardStoreButton addGestureRecognizer:cardStoreTap];*/
+    [cardStoreButton addGestureRecognizer:cardStoreTap];
     
     UIButton *settingsButton = menu.arrayOfButtons[buttonIndex++];
     

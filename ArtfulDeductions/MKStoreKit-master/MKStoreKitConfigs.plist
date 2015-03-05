@@ -6,6 +6,7 @@
 	<dict/>
 	<key>Non-Consumables</key>
 	<array>
+		<string>com.artfuldeductions.app.removeAds</string>
 		<string>com.artfuldeductions.app.deckPack1</string>
 	</array>
 	<key>Subscriptions</key>

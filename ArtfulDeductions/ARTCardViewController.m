@@ -202,10 +202,10 @@ CGFloat const questionViewXOffsetIpad = 5.0;
 
     [self startQuestionTapDetected:nil];
         
-    if (![MKStoreManager isFeaturePurchased:kProductClassicSeries]) {
-        self.canDisplayBannerAds = YES;
+    if ([MKStoreManager isFeaturePurchased:kProductClassicSeries] || [MKStoreManager isFeaturePurchased:kProductRemoveAds]) {
+        self.canDisplayBannerAds = NO;
      } else {
-         self.canDisplayBannerAds = NO;
+         self.canDisplayBannerAds = YES;
      }
 
 }

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		270DE5AE1A9659F200A70AE4 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 270DE5AC1A9659F200A70AE4 /* AdSupport.framework */; };
 		270DE5AF1A9659F200A70AE4 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 270DE5AD1A9659F200A70AE4 /* iAd.framework */; };
 		270DE5C81A96CDEE00A70AE4 /* ARTCardOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 270DE5C71A96CDEE00A70AE4 /* ARTCardOverlayView.m */; };
 		272E534619D1190F006253AB /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 272E534519D1190F006253AB /* Storyboard.storyboard */; };
@@ -47,7 +46,6 @@
 		2773B29519607ABB006A128F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2773B29419607ABB006A128F /* main.m */; };
 		2773B29919607ABB006A128F /* ARTAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2773B29819607ABB006A128F /* ARTAppDelegate.m */; };
 		2773B29C19607ABB006A128F /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2773B29A19607ABB006A128F /* Main_iPhone.storyboard */; };
-		2773B2AB19607ABB006A128F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2773B2AA19607ABB006A128F /* XCTest.framework */; };
 		2773B2AC19607ABB006A128F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2773B28819607ABB006A128F /* Foundation.framework */; };
 		2773B2AD19607ABB006A128F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2773B28C19607ABB006A128F /* UIKit.framework */; };
 		2773B2B519607ABB006A128F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2773B2B319607ABB006A128F /* InfoPlist.strings */; };
@@ -571,11 +569,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		270DE5AC1A9659F200A70AE4 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		270DE5AD1A9659F200A70AE4 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
-		270DE5B01A965A5900A70AE4 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = "../../../Downloads/GoogleMobileAdsSdkiOS-7.0.0/GoogleMobileAds.framework"; sourceTree = "<group>"; };
-		270DE5B21A965A6800A70AE4 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		270DE5B41A965A7200A70AE4 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		270DE5C61A96CDEE00A70AE4 /* ARTCardOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARTCardOverlayView.h; sourceTree = "<group>"; };
 		270DE5C71A96CDEE00A70AE4 /* ARTCardOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARTCardOverlayView.m; sourceTree = "<group>"; };
 		272E534519D1190F006253AB /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Storyboard.storyboard; path = ../Storyboard.storyboard; sourceTree = "<group>"; };
@@ -595,7 +589,6 @@
 		2744C92A199B5387005F2161 /* ARTCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARTCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		2745FE9D1A47ADF1002F90E4 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		2745FE9E1A47ADF1002F90E4 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		2745FEA01A47AE55002F90E4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		2745FEA21A47AEAA002F90E4 /* MTReachabilityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTReachabilityManager.h; sourceTree = "<group>"; };
 		2745FEA31A47AEAA002F90E4 /* MTReachabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTReachabilityManager.m; sourceTree = "<group>"; };
 		2745FEA61A49A0BE002F90E4 /* ARTDailyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARTDailyViewController.h; sourceTree = "<group>"; };
@@ -647,7 +640,6 @@
 		2773B29819607ABB006A128F /* ARTAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARTAppDelegate.m; sourceTree = "<group>"; };
 		2773B29B19607ABB006A128F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		2773B2A919607ABB006A128F /* ArtfulDeductionsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArtfulDeductionsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2773B2AA19607ABB006A128F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		2773B2B219607ABB006A128F /* ArtfulDeductionsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ArtfulDeductionsTests-Info.plist"; sourceTree = "<group>"; };
 		2773B2B419607ABB006A128F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2773B2B619607ABB006A128F /* ArtfulDeductionsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArtfulDeductionsTests.m; sourceTree = "<group>"; };
@@ -1105,7 +1097,6 @@
 		278B10CE19E1C7E200A060BB /* ARTAvatarHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARTAvatarHelper.h; sourceTree = "<group>"; };
 		278B10CF19E1C7E200A060BB /* ARTAvatarHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARTAvatarHelper.m; sourceTree = "<group>"; };
 		279F711A1980DAA200E3E24E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		27A04E9D19C2296E0098C4BB /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		27A95270198D649F000F4F3C /* ARTButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARTButton.h; sourceTree = "<group>"; };
 		27A95271198D649F000F4F3C /* ARTButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARTButton.m; sourceTree = "<group>"; };
 		27A95273198D6F83000F4F3C /* ARTGameSaves.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARTGameSaves.h; sourceTree = "<group>"; };
@@ -1208,7 +1199,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				270DE5AE1A9659F200A70AE4 /* AdSupport.framework in Frameworks */,
 				270DE5AF1A9659F200A70AE4 /* iAd.framework in Frameworks */,
 				27ED81BD19FFF7D2005ABF81 /* Security.framework in Frameworks */,
 				27659A5A19953D050065CCA4 /* StoreKit.framework in Frameworks */,
@@ -1222,7 +1212,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2773B2AB19607ABB006A128F /* XCTest.framework in Frameworks */,
 				2773B2AD19607ABB006A128F /* UIKit.framework in Frameworks */,
 				2773B2AC19607ABB006A128F /* Foundation.framework in Frameworks */,
 			);
@@ -1300,19 +1289,12 @@
 		2773B28719607ABB006A128F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				270DE5B41A965A7200A70AE4 /* MessageUI.framework */,
-				270DE5B21A965A6800A70AE4 /* AudioToolbox.framework */,
-				270DE5B01A965A5900A70AE4 /* GoogleMobileAds.framework */,
-				270DE5AC1A9659F200A70AE4 /* AdSupport.framework */,
 				270DE5AD1A9659F200A70AE4 /* iAd.framework */,
-				2745FEA01A47AE55002F90E4 /* SystemConfiguration.framework */,
 				27ED81BC19FFF7D2005ABF81 /* Security.framework */,
-				27A04E9D19C2296E0098C4BB /* CoreLocation.framework */,
 				27659A5919953D050065CCA4 /* StoreKit.framework */,
 				2773B28819607ABB006A128F /* Foundation.framework */,
 				2773B28A19607ABB006A128F /* CoreGraphics.framework */,
 				2773B28C19607ABB006A128F /* UIKit.framework */,
-				2773B2AA19607ABB006A128F /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

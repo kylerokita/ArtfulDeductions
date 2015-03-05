@@ -75,10 +75,10 @@
     }
     
     
-    if (![MKStoreManager isFeaturePurchased:kProductClassicSeries]) {
-        self.canDisplayBannerAds = YES;
-    } else {
+    if ([MKStoreManager isFeaturePurchased:kProductClassicSeries] || [MKStoreManager isFeaturePurchased:kProductRemoveAds]) {
         self.canDisplayBannerAds = NO;
+    } else {
+        self.canDisplayBannerAds = YES;
     }
 }
 

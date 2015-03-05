@@ -20,7 +20,7 @@
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>64620DB4BB88F48BDB94306B44BC120FBCC82EB9</key>
-		<string>../../LARSAdController/</string>
+		<string>../../LARSAdController</string>
 		<key>98E48F75D07D2D4A0F0D09E1014B946D5D808D9A</key>
 		<string>../..</string>
 	</dict>

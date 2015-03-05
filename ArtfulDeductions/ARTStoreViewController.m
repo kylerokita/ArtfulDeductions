@@ -291,7 +291,16 @@
     
     for (ARTStoreItem *storeItem in self.storeItems) {
         if ((storeItem.isPurchased && purchasedIndicator) || (!storeItem.isPurchased && !purchasedIndicator)) {
-            [self.storeItemsToShow addObject:storeItem];
+            
+            if (([storeItem.product.productIdentifier isEqual:kProductRemoveAds] && [MKStoreManager isFeaturePurchased:kProductClassicSeries])) {
+                // do not show remove ads if classic series already purchased
+                
+            } else if (([storeItem.product.productIdentifier isEqual:kProductClassicSeries] && ![MKStoreManager isFeaturePurchased:kProductClassicSeries])) {
+                // do not show classic series if its not purchased
+                
+            } else {
+                [self.storeItemsToShow addObject:storeItem];
+            }
             
         }
     }
